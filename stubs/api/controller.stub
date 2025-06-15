@@ -1,0 +1,122 @@
+<?php
+
+namespace {{ controllerNamespace }};
+
+use App\Http\Controllers\AppBaseController;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
+use {{ requestNamespace }}\{{ createRequest }};
+use {{ requestNamespace }}\{{ updateRequest }};
+use {{ modelNamespace }}\{{ model }};
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Schema;
+use Spatie\QueryBuilder\QueryBuilder;
+
+/**
+ * Class {{ controlador }}
+ */
+class {{ controlador }} extends AppbaseController implements HasMiddleware
+{
+
+      /**
+     * @return array
+     */
+    public static function middleware(): array
+    {
+        return [
+            new Middleware('permission:Listar {{ variableTitleCase }}', only: ['index']),
+            new Middleware('permission:Ver {{ variableTitleCase }}', only: ['show']),
+            new Middleware('permission:Crear {{ variableTitleCase }}', only: ['store']),
+            new Middleware('permission:Editar {{ variableTitleCase }}', only: ['update']),
+            new Middleware('permission:Eliminar {{ variableTitleCase }}', only: ['destroy']),
+        ];
+    }
+
+    /**
+     * Display a listing of the {{ tableNameM }}.
+     * GET|HEAD /{{ variable_plural }}
+     */
+    public function index(Request $request): JsonResponse
+    {
+        ${{ variable_plural }} = QueryBuilder::for({{ model }}::class)
+            ->with([])
+            ->allowedFilters({{ otro }})
+            ->allowedSorts({{ otro }})
+            ->defaultSort('-id') // Ordenar por defecto por fecha descendente
+            ->paginate($request->get('per_page', 10));
+
+        return $this->sendResponse(${{ variable_plural }}->toArray(), '{{ variable_plural }} recuperados con éxito.');
+    }
+
+
+    /**
+     * Store a newly created {{ model }} in storage.
+     * POST /{{ variable_plural }}
+     */
+    public function store({{ createRequest }} $request): JsonResponse
+    {
+        $input = $request->all();
+
+        ${{ variable_plural }} = {{ model }}::create($input);
+
+        return $this->sendResponse(${{ variable_plural }}->toArray(), '{{ model }} creado con éxito.');
+    }
+
+
+    /**
+     * Display the specified {{ model }}.
+     * GET|HEAD /{{ variable_plural }}/{id}
+     */
+    public function show({{ model }} ${{ variable }})
+    {
+        return $this->sendResponse(${{ variable }}->toArray(), '{{ model }} recuperado con éxito.');
+    }
+
+
+
+    /**
+    * Update the specified {{ model }} in storage.
+    * PUT/PATCH /{{ variable_plural }}/{id}
+    */
+    public function update({{ updateRequest }} $request, $id): JsonResponse
+    {
+        ${{ variable }} = {{ model }}::findOrFail($id);
+        ${{ variable }}->update($request->validated());
+        return $this->sendResponse(${{ variable }}, '{{ model }} actualizado con éxito.');
+    }
+
+    /**
+    * Remove the specified {{ model }} from storage.
+    * DELETE /{{ variable_plural }}/{id}
+    */
+    public function destroy({{ model }} ${{ variable }}): JsonResponse
+    {
+        ${{ variable }}->delete();
+        return $this->sendResponse(null, '{{ model }} eliminado con éxito.');
+    }
+
+    /**
+    * Get columns of the table
+    * GET /{{ variable_plural }}/columns
+    */
+    public function getColumnas(): JsonResponse
+    {
+
+        $columns = Schema::getColumnListing((new {{ model }})->getTable());
+
+        $columnasSinTimesTamps = array_diff($columns, ['id', 'created_at', 'updated_at', 'deleted_at']);
+
+        $nombreDeTabla = (new {{ model }})->getTable();
+
+        $data = [
+            'columns' => array_values($columnasSinTimesTamps),
+            'nombreDelModelo' => '{{ model }}',
+            'nombreDeTabla' => $nombreDeTabla,
+            'ruta' => 'api/'.$nombreDeTabla,
+        ];
+
+        return $this->sendResponse($data, 'Columnas de la tabla {{ tableName }} recuperadas con éxito.');
+    }
+
+}
