@@ -19,12 +19,14 @@ class DatabaseSeeder extends Seeder
         $this->call([
             MinisterioTableSeeder::class,
             PersonaEstadoTableSeeder::class,
+            PersonaNivelAcademicoTableSeeder::class,
         ]);
 
         //Permisos
         $this->call([
             MinisteriosPermisosTableSeeder::class,
             PersonaEstadosPermisosTableSeeder::class,
+            PersonaNivelAcademicoPermisosTableSeeder::class,
         ]);
 
     }
