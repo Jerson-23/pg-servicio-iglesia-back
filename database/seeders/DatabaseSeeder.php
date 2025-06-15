@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
             PersonaNivelAcademicoTableSeeder::class,
             PersonaGeneroTableSeeder::class,
             EventoTipoTableSeeder::class,
+            FamiliaTipoTableSeeder::class,
         ]);
 
         //Permisos
@@ -31,6 +32,7 @@ class DatabaseSeeder extends Seeder
             PersonaNivelAcademicoPermisosTableSeeder::class,
             PersonaGenerosPermisosTableSeeder::class,
             EventoTiposPermisosTableSeeder::class,
+            FamiliasTiposPermisosTableSeeder::class,
         ]);
 
     }
