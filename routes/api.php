@@ -14,6 +14,9 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::apiResource('ministerios', App\Http\Controllers\Api\Ministerio\MinisterioApiController::class);
 
+    Route::apiResource('persona/estados', App\Http\Controllers\Api\Persona\PersonaEstadoApiController::class);
+
+
 });
 
 require __DIR__.'/auth.php';
@@ -23,5 +26,6 @@ Route::prefix('libres')->group(function () {
     require __DIR__.'/admin/Configuraciones/api_libres.php';
 
 });
+
 
 

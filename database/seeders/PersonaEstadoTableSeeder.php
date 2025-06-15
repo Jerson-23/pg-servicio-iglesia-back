@@ -2,11 +2,11 @@
 
 namespace Database\Seeders;
 
-use App\Models\Ministerio\Ministerio;
+use App\Models\Persona\PersonaEstado;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class MinisterioTableSeeder extends Seeder
+class PersonaEstadoTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,19 +15,15 @@ class MinisterioTableSeeder extends Seeder
      */
     public function run()
     {
-
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
 
-        Ministerio::truncate();
+        PersonaEstado::truncate();
 
-        Ministerio::create([
-            'nombre' => 'Musical',
+        PersonaEstado::create([
+            'nombre' => 'Activo',
         ]);
-        Ministerio::create([
-            'nombre' => 'Limpieza',
-        ]);
-        Ministerio::create([
-            'nombre' => 'Logistica',
+        PersonaEstado::create([
+            'nombre' => 'Inactivo',
         ]);
 
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');

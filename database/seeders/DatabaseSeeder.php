@@ -17,12 +17,14 @@ class DatabaseSeeder extends Seeder
 
         //Catálogos
         $this->call([
-            MinisterioTableSeeder::class
+            MinisterioTableSeeder::class,
+            PersonaEstadoTableSeeder::class,
         ]);
 
         //Permisos
         $this->call([
             MinisteriosPermisosTableSeeder::class,
+            PersonaEstadosPermisosTableSeeder::class,
         ]);
 
     }
