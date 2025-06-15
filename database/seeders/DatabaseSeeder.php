@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             MinisterioTableSeeder::class,
             PersonaEstadoTableSeeder::class,
             PersonaNivelAcademicoTableSeeder::class,
+            PersonaGeneroTableSeeder::class,
         ]);
 
         //Permisos
@@ -27,6 +28,7 @@ class DatabaseSeeder extends Seeder
             MinisteriosPermisosTableSeeder::class,
             PersonaEstadosPermisosTableSeeder::class,
             PersonaNivelAcademicoPermisosTableSeeder::class,
+            PersonaGenerosPermisosTableSeeder::class,
         ]);
 
     }

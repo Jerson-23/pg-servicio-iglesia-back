@@ -18,6 +18,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::apiResource('persona/nivel/academicos', App\Http\Controllers\Api\Persona\PersonaNivelAcademicoApiController::class);
 
+    Route::apiResource('persona/generos', App\Http\Controllers\Api\Persona\PersonaGeneroApiController::class);
 
 });
 
