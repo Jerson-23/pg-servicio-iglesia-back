@@ -20,6 +20,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::apiResource('persona/generos', App\Http\Controllers\Api\Persona\PersonaGeneroApiController::class);
 
+    Route::apiResource('persona/familias', App\Http\Controllers\Api\Persona\FamiliaApiController::class);
+
 });
 
 require __DIR__.'/auth.php';
@@ -29,8 +31,4 @@ Route::prefix('libres')->group(function () {
     require __DIR__.'/admin/Configuraciones/api_libres.php';
 
 });
-
-
-
-
 
