@@ -15,5 +15,15 @@ class DatabaseSeeder extends Seeder
 
         $this->call(IndexTableSeeder::class);
 
+        //Catálogos
+        $this->call([
+            MinisterioTableSeeder::class
+        ]);
+
+        //Permisos
+        $this->call([
+            MinisteriosPermisosTableSeeder::class,
+        ]);
+
     }
 }

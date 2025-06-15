@@ -78,6 +78,8 @@ class Rol extends SpatieRole
 
     ];
 
+    const ADMINISTRADOR = 1;
+
     /**
      * Accessor for relationships
      *
