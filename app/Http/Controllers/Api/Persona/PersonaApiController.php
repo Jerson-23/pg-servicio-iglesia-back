@@ -13,6 +13,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
+use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
 /**
@@ -45,6 +46,14 @@ class PersonaApiController extends AppbaseController implements HasMiddleware
     {
         $personas = QueryBuilder::for(Persona::class)
             ->allowedFilters([
+                AllowedFilter::callback('nombre', function ($query, $value) {
+                    $query->where(function ($q) use ($value) {
+                        $q->where('primer_nombre', 'LIKE', "%{$value}%")
+                            ->orWhere('segundo_nombre', 'LIKE', "%{$value}%")
+                            ->orWhere('primer_apellido', 'LIKE', "%{$value}%")
+                            ->orWhere('segundo_apellido', 'LIKE', "%{$value}%");
+                    });
+                }),
                 'primer_nombre',
                 'segundo_nombre',
                 'primer_apellido',
