@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('persona_bitacoras', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('titulo');
             $table->text('descripcion');
             $table->dateTime('fecha_registro');
             $table->unsignedInteger('persona_id')->index('fk_persona_bitacoras_personas1_idx');

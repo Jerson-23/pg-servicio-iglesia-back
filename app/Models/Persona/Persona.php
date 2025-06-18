@@ -5,8 +5,10 @@ namespace App\Models\Persona;
 
 use App\Models\Ministerio\Ministerio;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Spatie\MediaLibrary\HasMedia;
 
 /**
  *
@@ -180,6 +182,11 @@ class Persona extends Model
     public function getNombreCompletoAttribute(): string
     {
         return trim("{$this->primer_nombre} {$this->segundo_nombre} {$this->primer_apellido} {$this->segundo_apellido}");
+    }
+
+    public function bitacoras(): HasMany
+    {
+        return $this->hasMany(PersonaBitacora::class, 'persona_id', 'id');
     }
 
 }

@@ -3,12 +3,13 @@
 namespace App\Models\Persona;
 
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property string $descripcion
@@ -43,13 +44,13 @@ class PersonaBitacora extends Model
     protected $table = 'persona_bitacoras';
 
 
-    protected $fillable =
-        [
-    'descripcion',
-    'fecha_registro',
-    'persona_id',
-    'user_registra_id'
-];
+    protected $fillable = [
+        'titulo',
+        'descripcion',
+        'fecha_registro',
+        'persona_id',
+        'user_registra_id'
+    ];
 
 
     /**
@@ -57,8 +58,7 @@ class PersonaBitacora extends Model
      *
      * @var array
      */
-    protected $casts =
-        [
+    protected $casts = [
         'id' => 'integer',
         'descripcion' => 'string',
         'fecha_registro' => 'datetime',
@@ -70,19 +70,17 @@ class PersonaBitacora extends Model
     ];
 
 
-
     /**
      * Validation rules
      *
      * @var array
      */
-    public static $rules =
-    [
-    'descripcion' => 'required|string',
-    'fecha_registro' => 'required|date',
-    'persona_id' => 'required|integer',
-    'user_registra_id' => 'required|integer',
-];
+    public static $rules = [
+        'descripcion' => 'required|string',
+        'fecha_registro' => 'required|date',
+        'persona_id' => 'required|integer',
+        'user_registra_id' => 'required|integer',
+    ];
 
 
     /**
@@ -90,7 +88,7 @@ class PersonaBitacora extends Model
      *
      * @var array
      */
-    public static $messages =[
+    public static $messages = [
 
     ];
 
@@ -102,12 +100,12 @@ class PersonaBitacora extends Model
      */
     public function persona()
     {
-    return $this->belongsTo(Persona::class,'persona_id','id');
+        return $this->belongsTo(Persona::class, 'persona_id', 'id');
     }
 
-    public function user()
+    public function userRegistra()
     {
-    return $this->belongsTo(User::class,'user_registra_id','id');
+        return $this->belongsTo(User::class, 'user_registra_id', 'id');
     }
 
 }

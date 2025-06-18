@@ -18,14 +18,14 @@ class RolesTableSeeder extends Seeder
     {
 
         Rol::firstOrCreate(
-            ['nombre' => 'Pastor'],
+            ['name' => 'Pastor'],
             [
                 'guard_name' => 'web',
             ]
         );
 
         Rol::firstOrCreate(
-            ['nombre' => 'Co Pastor'],
+            ['name' => 'Co Pastor'],
             [
                 'guard_name' => 'web',
             ]

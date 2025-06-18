@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Persona;
 
 use App\Http\Controllers\AppBaseController;
+use App\Traits\PersonaTrait;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use App\Http\Requests\Api\Persona\CreatePersonaApiRequest;
@@ -10,6 +11,7 @@ use App\Http\Requests\Api\Persona\UpdatePersonaApiRequest;
 use App\Models\Persona\Persona;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -18,6 +20,8 @@ use Spatie\QueryBuilder\QueryBuilder;
  */
 class PersonaApiController extends AppbaseController implements HasMiddleware
 {
+
+    use PersonaTrait;
 
     /**
      * @return array
@@ -90,15 +94,44 @@ class PersonaApiController extends AppbaseController implements HasMiddleware
      */
     public function store(CreatePersonaApiRequest $request): JsonResponse
     {
-        $input = $request->all();
+        // Inicia una transacción para asegurar que todo se ejecute correctamente
+        DB::beginTransaction();
 
-        $year = now()->year;
-        $count = Persona::whereYear('created_at', $year)->count() + 1;
-        $input['correlativo'] = sprintf('%s-%04d', $year, $count);
+        try {
+            // Obtiene todos los datos validados del request
+            $input = $request->all();
 
-        $personas = Persona::create($input);
+            // Genera un correlativo basado en el año actual y la cantidad de personas registradas en ese año
+            $year = now()->year;
+            $count = Persona::whereYear('created_at', $year)->count() + 1;
+            $input['correlativo'] = sprintf('%s-%04d', $year, $count);
 
-        return $this->sendResponse($personas->toArray(), 'Persona creado con éxito.');
+            // Crea una nueva persona con los datos del request
+            $persona = Persona::create($input);
+
+            // Registra la creación en la bitácora de la persona
+            $this->guardarEnBitacora(
+                $persona,
+                'Creación del miembro',
+                'Se ha creado el miembro con el correlativo: '.$persona->correlativo
+            );
+
+            // Confirma la transacción si todo ha salido bien
+            DB::commit();
+
+            // Retorna una respuesta exitosa con los datos de la persona creada
+            return $this->sendResponse($persona->toArray(), 'Persona creada con éxito.');
+
+        } catch (\Exception $e) {
+            // Revierte la transacción si ocurre un error
+            DB::rollBack();
+
+            // Registra el error para su análisis
+            \Log::error('Error al crear persona: '.$e->getMessage());
+
+            // Retorna una respuesta de error al cliente
+            return $this->sendError('Ocurrió un error al crear la persona.', 500);
+        }
     }
 
     /**
