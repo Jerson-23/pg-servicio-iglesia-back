@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
             PersonaGeneroTableSeeder::class,
             EventoTipoTableSeeder::class,
             FamiliaTipoTableSeeder::class,
+            IglesiaTableSeeder::class
         ]);
 
         //Permisos
@@ -35,6 +36,7 @@ class DatabaseSeeder extends Seeder
             FamiliasTiposPermisosTableSeeder::class,
             PersonaBitacorasPermisosTableSeeder::class,
             BautizoBitacorasPermisosTableSeeder::class,
+            IglesiasPermisosTableSeeder::class
         ]);
 
     }
