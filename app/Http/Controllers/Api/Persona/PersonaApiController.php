@@ -92,6 +92,10 @@ class PersonaApiController extends AppbaseController implements HasMiddleware
     {
         $input = $request->all();
 
+        $year = now()->year;
+        $count = Persona::whereYear('created_at', $year)->count() + 1;
+        $input['correlativo'] = sprintf('%s-%04d', $year, $count);
+
         $personas = Persona::create($input);
 
         return $this->sendResponse($personas->toArray(), 'Persona creado con éxito.');

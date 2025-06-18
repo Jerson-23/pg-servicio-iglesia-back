@@ -127,7 +127,6 @@ class Persona extends Model
         'ministerio_id' => 'required|integer',
         'estado_id' => 'required|integer',
         'fecha_nacimiento' => 'nullable|date',
-        'correlativo' => 'required|string|max:10',
         'dpi' => 'nullable|string|max:13',
         'nivel_academico_id' => 'required|integer',
         'genero_id' => 'required|integer',
