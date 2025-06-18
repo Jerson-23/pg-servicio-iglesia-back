@@ -23,7 +23,6 @@ class DatabaseSeeder extends Seeder
             PersonaGeneroTableSeeder::class,
             EventoTipoTableSeeder::class,
             FamiliaTipoTableSeeder::class,
-            PersonaBitacoraTableSeeder::class,
         ]);
 
         //Permisos
@@ -35,6 +34,7 @@ class DatabaseSeeder extends Seeder
             EventoTiposPermisosTableSeeder::class,
             FamiliasTiposPermisosTableSeeder::class,
             PersonaBitacorasPermisosTableSeeder::class,
+            BautizoBitacorasPermisosTableSeeder::class,
         ]);
 
     }
