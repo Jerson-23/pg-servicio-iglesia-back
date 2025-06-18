@@ -143,25 +143,77 @@ class PersonaApiController extends AppbaseController implements HasMiddleware
         return $this->sendResponse($persona->toArray(), 'Persona recuperado con éxito.');
     }
 
-    /**
-     * Update the specified Persona in storage.
-     * PUT/PATCH /personas/{id}
-     */
+
     public function update(UpdatePersonaApiRequest $request, $id): JsonResponse
     {
-        $persona = Persona::findOrFail($id);
-        $persona->update($request->validated());
-        return $this->sendResponse($persona, 'Persona actualizado con éxito.');
+        // Inicia una transacción para asegurar que el proceso sea atómico
+        DB::beginTransaction();
+
+        try {
+            // Busca la persona por ID, lanza excepción si no se encuentra
+            $persona = Persona::findOrFail($id);
+
+            // Actualiza la persona con los datos validados del request
+            $persona->update($request->validated());
+
+            // Registra la actualización en la bitácora
+            $this->guardarEnBitacora(
+                $persona,
+                'Actualización del miembro',
+                'Se han actualizado los datos del miembro con el correlativo: ' . $persona->correlativo
+            );
+
+            // Confirma los cambios en la base de datos
+            DB::commit();
+
+            // Devuelve respuesta exitosa con los datos actualizados
+            return $this->sendResponse($persona, 'Persona actualizada con éxito.');
+
+        } catch (\Exception $e) {
+            // Revierte los cambios si algo falla
+            DB::rollBack();
+
+            // Registra el error en el log
+            \Log::error('Error al actualizar persona: ' . $e->getMessage());
+
+            // Retorna una respuesta de error
+            return $this->sendError('Ocurrió un error al actualizar la persona.', 500);
+        }
     }
 
-    /**
-     * Remove the specified Persona from storage.
-     * DELETE /personas/{id}
-     */
+
     public function destroy(Persona $persona): JsonResponse
     {
-        $persona->delete();
-        return $this->sendResponse(null, 'Persona eliminado con éxito.');
+        // Inicia una transacción para asegurar consistencia
+        DB::beginTransaction();
+
+        try {
+            // Registra en la bitácora antes de eliminar, para conservar la referencia
+            $this->guardarEnBitacora(
+                $persona,
+                'Eliminación del miembro',
+                'Se ha eliminado el miembro con el correlativo: ' . $persona->correlativo
+            );
+
+            // Elimina la persona de la base de datos
+            $persona->delete();
+
+            // Confirma la transacción
+            DB::commit();
+
+            // Retorna respuesta exitosa
+            return $this->sendResponse(null, 'Persona eliminada con éxito.');
+
+        } catch (\Exception $e) {
+            // Revierte cualquier cambio si ocurre un error
+            DB::rollBack();
+
+            // Registra el error en los logs
+            \Log::error('Error al eliminar persona: ' . $e->getMessage());
+
+            // Retorna respuesta de error
+            return $this->sendError('Ocurrió un error al eliminar la persona.', 500);
+        }
     }
 
 }
