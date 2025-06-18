@@ -37,7 +37,8 @@ class DatabaseSeeder extends Seeder
             FamiliasTiposPermisosTableSeeder::class,
             PersonaBitacorasPermisosTableSeeder::class,
             BautizoBitacorasPermisosTableSeeder::class,
-            IglesiasPermisosTableSeeder::class
+            IglesiasPermisosTableSeeder::class,
+            PersonasPermisosTableSeeder::class
         ]);
 
     }
