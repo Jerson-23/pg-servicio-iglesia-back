@@ -79,6 +79,11 @@ class Rol extends SpatieRole
     ];
 
     const ADMINISTRADOR = 1;
+    const EMPLEADO = 2;
+    const PROGRAMADOR = 3;
+    const SUPER_ADMINISTRADOR = 4;
+    const PASTOR = 5;
+    const CO_PASTOR = 6;
 
     /**
      * Accessor for relationships

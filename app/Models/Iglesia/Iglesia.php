@@ -3,12 +3,13 @@
 namespace App\Models\Iglesia;
 
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property string $nombre
@@ -41,12 +42,11 @@ class Iglesia extends Model
     protected $table = 'iglesias';
 
 
-    protected $fillable =
-        [
-    'nombre',
-    'direccion',
-    'pastor_id'
-];
+    protected $fillable = [
+        'nombre',
+        'direccion',
+        'pastor_id'
+    ];
 
 
     /**
@@ -54,8 +54,7 @@ class Iglesia extends Model
      *
      * @var array
      */
-    protected $casts =
-        [
+    protected $casts = [
         'id' => 'integer',
         'nombre' => 'string',
         'direccion' => 'string',
@@ -66,18 +65,16 @@ class Iglesia extends Model
     ];
 
 
-
     /**
      * Validation rules
      *
      * @var array
      */
-    public static $rules =
-    [
-    'nombre' => 'required|string|max:120',
-    'direccion' => 'required|string',
-    'pastor_id' => 'required|integer',
-];
+    public static $rules = [
+        'nombre' => 'required|string|max:120',
+        'direccion' => 'required|string',
+        'pastor_id' => 'required|integer',
+    ];
 
 
     /**
@@ -85,7 +82,7 @@ class Iglesia extends Model
      *
      * @var array
      */
-    public static $messages =[
+    public static $messages = [
 
     ];
 
@@ -95,9 +92,9 @@ class Iglesia extends Model
      *
      * @var array
      */
-    public function user()
+    public function pastor()
     {
-    return $this->belongsTo(User::class,'pastor_id','id');
+        return $this->belongsTo(User::class, 'pastor_id', 'id');
     }
 
 }

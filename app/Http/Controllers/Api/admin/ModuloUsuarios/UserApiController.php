@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\admin\ModuloUsuarios;
 
 use App\Http\Controllers\AppBaseController;
+use App\Http\Filters\RoleFilter;
 use App\Http\Requests\Api\admin\ModuloUsuarios\CreateUserApiRequest;
 use App\Http\Requests\Api\admin\ModuloUsuarios\UpdateUserApiRequest;
 use App\Models\Rol;
@@ -11,6 +12,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
+use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
 /**
@@ -52,6 +54,7 @@ class UserApiController extends AppbaseController implements HasMiddleware
                 'segundo_apellido',
                 'usuario',
                 'email',
+                AllowedFilter::custom('rol_id', new RoleFilter()),
             ])
             ->allowedSorts([
                 'id',

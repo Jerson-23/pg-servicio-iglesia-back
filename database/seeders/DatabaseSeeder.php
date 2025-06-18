@@ -23,11 +23,12 @@ class DatabaseSeeder extends Seeder
             PersonaGeneroTableSeeder::class,
             EventoTipoTableSeeder::class,
             FamiliaTipoTableSeeder::class,
-            IglesiaTableSeeder::class
+            IglesiaTableSeeder::class,
         ]);
 
         //Permisos
         $this->call([
+            RolesTableSeeder::class,
             MinisteriosPermisosTableSeeder::class,
             PersonaEstadosPermisosTableSeeder::class,
             PersonaNivelAcademicoPermisosTableSeeder::class,

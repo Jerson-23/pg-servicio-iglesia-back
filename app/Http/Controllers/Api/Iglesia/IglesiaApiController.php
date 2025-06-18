@@ -40,7 +40,6 @@ class IglesiaApiController extends AppbaseController implements HasMiddleware
     public function index(Request $request): JsonResponse
     {
         $iglesias = QueryBuilder::for(Iglesia::class)
-            ->with([])
             ->allowedFilters([
                 'nombre',
                 'direccion',
@@ -50,6 +49,9 @@ class IglesiaApiController extends AppbaseController implements HasMiddleware
                 'nombre',
                 'direccion',
                 'pastor_id'
+            ])
+            ->allowedIncludes([
+                'pastor',
             ])
             ->defaultSort('-id') // Ordenar por defecto por fecha descendente
             ->paginate($request->get('per_page', 10));
