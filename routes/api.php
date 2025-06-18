@@ -30,6 +30,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::apiResource('personas', App\Http\Controllers\Api\Persona\PersonaApiController::class);
 
+    Route::apiResource('persona/bitacoras', App\Http\Controllers\Api\Persona\PersonaBitacoraApiController::class);
+
 });
 
 require __DIR__.'/auth.php';

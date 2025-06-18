@@ -40,7 +40,6 @@ class PersonaBitacoraApiController extends AppbaseController implements HasMiddl
     public function index(Request $request): JsonResponse
     {
         $persona_bitacoras = QueryBuilder::for(PersonaBitacora::class)
-            ->with([])
             ->allowedFilters([
                 'descripcion',
                 'fecha_registro',
@@ -52,6 +51,10 @@ class PersonaBitacoraApiController extends AppbaseController implements HasMiddl
                 'fecha_registro',
                 'persona_id',
                 'user_registra_id'
+            ])
+            ->allowedIncludes([
+                'persona',
+                'userRegistra'
             ])
             ->defaultSort('-id') // Ordenar por defecto por fecha descendente
             ->paginate($request->get('per_page', 10));
