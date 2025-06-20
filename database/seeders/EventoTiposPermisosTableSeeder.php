@@ -19,6 +19,7 @@ class EventoTiposPermisosTableSeeder extends Seeder
             'Crear Evento Tipos',
             'Editar Evento Tipos',
             'Eliminar Evento Tipos',
+            'Listar Catalogo Eventos',
         ];
 
         foreach ($permisos as $permiso) {

@@ -19,6 +19,8 @@ class MinisteriosPermisosTableSeeder extends Seeder
             'Crear Ministerios',
             'Editar Ministerios',
             'Eliminar Ministerios',
+            'Modulo Congregación',
+            'Modulo Catalogos Congregacion',
         ];
 
         foreach ($permisos as $permiso) {

@@ -19,6 +19,8 @@ class PersonasPermisosTableSeeder extends Seeder
             'Crear Personas',
             'Editar Personas',
             'Eliminar Personas',
+            'Modulo Personas',
+            'Listar Catálogos Personas',
         ];
 
         foreach ($permisos as $permiso) {

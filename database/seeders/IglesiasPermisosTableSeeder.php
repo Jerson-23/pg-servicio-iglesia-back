@@ -21,6 +21,7 @@ class IglesiasPermisosTableSeeder extends Seeder
             'Crear Iglesias',
             'Editar Iglesias',
             'Eliminar Iglesias',
+            'Modulo Iglesias',
         ];
 
         foreach ($permisos as $permiso) {
