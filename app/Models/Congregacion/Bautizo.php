@@ -3,12 +3,15 @@
 namespace App\Models\Congregacion;
 
 
+use App\Models\Iglesia\Iglesia;
+use App\Models\Persona\Persona;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property string $observaciones
@@ -45,14 +48,14 @@ class Bautizo extends Model
     protected $table = 'bautisos';
 
 
-    protected $fillable =
-        [
-    'observaciones',
-    'fecha_bautiso',
-    'persona_id',
-    'user_registra_id',
-    'iglesia_id'
-];
+    protected $fillable = [
+        'observaciones',
+        'fecha_bautiso',
+        'hora_bautiso',
+        'persona_id',
+        'user_registra_id',
+        'iglesia_id',
+    ];
 
 
     /**
@@ -60,11 +63,11 @@ class Bautizo extends Model
      *
      * @var array
      */
-    protected $casts =
-        [
+    protected $casts = [
         'id' => 'integer',
         'observaciones' => 'string',
         'fecha_bautiso' => 'datetime',
+        'hora_bautiso' => 'datetime:H:i',
         'persona_id' => 'integer',
         'user_registra_id' => 'integer',
         'iglesia_id' => 'integer',
@@ -74,20 +77,19 @@ class Bautizo extends Model
     ];
 
 
-
     /**
      * Validation rules
      *
      * @var array
      */
-    public static $rules =
-    [
-    'observaciones' => 'required|string',
-    'fecha_bautiso' => 'required|date',
-    'persona_id' => 'required|integer',
-    'user_registra_id' => 'required|integer',
-    'iglesia_id' => 'required|integer',
-];
+    public static $rules = [
+        'observaciones' => 'required|string',
+        'fecha_bautiso' => 'required|date',
+        'persona_id' => 'required|integer',
+        'user_registra_id' => 'required|integer',
+        'iglesia_id' => 'required|integer',
+        'hora_bautiso' => 'required|date_format:H:i',
+    ];
 
 
     /**
@@ -95,7 +97,7 @@ class Bautizo extends Model
      *
      * @var array
      */
-    public static $messages =[
+    public static $messages = [
 
     ];
 
@@ -107,17 +109,17 @@ class Bautizo extends Model
      */
     public function iglesia()
     {
-    return $this->belongsTo(Iglesia::class,'iglesia_id','id');
+        return $this->belongsTo(Iglesia::class, 'iglesia_id', 'id');
     }
 
     public function persona()
     {
-    return $this->belongsTo(Persona::class,'persona_id','id');
+        return $this->belongsTo(Persona::class, 'persona_id', 'id');
     }
 
-    public function user()
+    public function userRegistra()
     {
-    return $this->belongsTo(User::class,'user_registra_id','id');
+        return $this->belongsTo(User::class, 'user_registra_id', 'id');
     }
 
 }

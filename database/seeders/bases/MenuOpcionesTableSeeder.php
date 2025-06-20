@@ -268,7 +268,7 @@ class MenuOpcionesTableSeeder extends Seeder
             "id" => 23,
             "titulo" => "Bautizos",
             "icono" => "ri-code-box-line",
-            "ruta" => null,
+            "ruta" => 'congregacion-bautizos',
             "orden" => 22,
             "action" => "Listar Bautizos",
             "subject" => "Bautizo",
