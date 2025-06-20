@@ -32,6 +32,9 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::apiResource('persona/bitacoras', App\Http\Controllers\Api\Persona\PersonaBitacoraApiController::class);
 
+    Route::apiResource('bautizos', App\Http\Controllers\Api\Congregacion\BautizoApiController::class);
+
+
 });
 
 require __DIR__.'/auth.php';
@@ -41,7 +44,6 @@ Route::prefix('libres')->group(function () {
     require __DIR__.'/admin/Configuraciones/api_libres.php';
 
 });
-
 
 
 

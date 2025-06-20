@@ -38,7 +38,8 @@ class DatabaseSeeder extends Seeder
             PersonaBitacorasPermisosTableSeeder::class,
             BautizoBitacorasPermisosTableSeeder::class,
             IglesiasPermisosTableSeeder::class,
-            PersonasPermisosTableSeeder::class
+            PersonasPermisosTableSeeder::class,
+            BautizosPermisosTableSeeder::class,
         ]);
 
     }
