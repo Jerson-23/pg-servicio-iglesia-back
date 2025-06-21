@@ -99,12 +99,12 @@ class BautizoBitacora extends Model
      *
      * @var array
      */
-    public function bautiso()
+    public function bautizo()
     {
         return $this->belongsTo(Bautizo::class, 'bautiso_id', 'id');
     }
 
-    public function user()
+    public function userRegistra()
     {
         return $this->belongsTo(User::class, 'user_registra_id', 'id');
     }

@@ -32,7 +32,10 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::apiResource('persona/bitacoras', App\Http\Controllers\Api\Persona\PersonaBitacoraApiController::class);
 
+    Route::apiResource('bautizos/bitacoras', App\Http\Controllers\Api\Evento\BautizoBitacoraApiController::class);
+
     Route::apiResource('bautizos', App\Http\Controllers\Api\Congregacion\BautizoApiController::class);
+
 
 
 });

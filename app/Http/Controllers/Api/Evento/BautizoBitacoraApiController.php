@@ -40,7 +40,6 @@ class BautizoBitacoraApiController extends AppbaseController implements HasMiddl
     public function index(Request $request): JsonResponse
     {
         $bautiso_bitacoras = QueryBuilder::for(BautizoBitacora::class)
-            ->with([])
             ->allowedFilters([
                 'descripcion',
                 'fecha_registro',
@@ -53,10 +52,11 @@ class BautizoBitacoraApiController extends AppbaseController implements HasMiddl
                 'bautiso_id',
                 'user_registra_id'
             ])
+            ->allowedIncludes(['bautizo.persona', 'userRegistra'])
             ->defaultSort('-id') // Ordenar por defecto por fecha descendente
             ->paginate($request->get('per_page', 10));
 
-        return $this->sendResponse($bautiso_bitacoras->toArray(), 'bautiso_bitacoras recuperados con éxito.');
+        return $this->sendResponse($bautiso_bitacoras->toArray(), 'Bitácoras recuperados con éxito.');
     }
 
     /**

@@ -140,13 +140,13 @@ class BautizoApiController extends AppbaseController implements HasMiddleware
      * PUT/PATCH /bautisos/{id}
      */
 
-    public function update(UpdateBautizoApiRequest $request, $id): JsonResponse
+    public function update(Request $request, $id): JsonResponse
     {
         // Buscamos el bautizo, o lanzamos error 404 si no existe
         $bautizo = Bautizo::findOrFail($id);
 
         // Obtenemos los datos validados del request
-        $input = $request->validated();
+        $input = $request->all();
 
         // Iniciamos una transacción para asegurar consistencia en la actualización
         DB::beginTransaction();
