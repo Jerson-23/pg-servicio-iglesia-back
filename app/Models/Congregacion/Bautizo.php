@@ -3,10 +3,12 @@
 namespace App\Models\Congregacion;
 
 
+use App\Models\Evento\BautizoBitacora;
 use App\Models\Iglesia\Iglesia;
 use App\Models\Persona\Persona;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -120,6 +122,19 @@ class Bautizo extends Model
     public function userRegistra()
     {
         return $this->belongsTo(User::class, 'user_registra_id', 'id');
+    }
+
+    public function participantes(): BelongsToMany
+    {
+        return $this->belongsToMany(Persona::class, 'bautisos_has_personas',
+            'bautisos_id',
+            'personas_id');
+    }
+
+    public function bitacoras()
+    {
+        return $this->hasMany(BautizoBitacora::class, 'bautiso_id', 'id');
+
     }
 
 }

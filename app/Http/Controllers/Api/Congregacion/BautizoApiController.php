@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Congregacion;
 
 use App\Http\Controllers\AppBaseController;
+use App\Traits\BautizoTrait;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use App\Http\Requests\Api\Congregacion\CreateBautizoApiRequest;
@@ -10,6 +11,7 @@ use App\Http\Requests\Api\Congregacion\UpdateBautizoApiRequest;
 use App\Models\Congregacion\Bautizo;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -18,6 +20,7 @@ use Spatie\QueryBuilder\QueryBuilder;
  */
 class BautizoApiController extends AppbaseController implements HasMiddleware
 {
+    use BautizoTrait;
 
     /**
      * @return array
@@ -40,7 +43,6 @@ class BautizoApiController extends AppbaseController implements HasMiddleware
     public function index(Request $request): JsonResponse
     {
         $bautisos = QueryBuilder::for(Bautizo::class)
-            ->with([])
             ->allowedFilters([
                 'observaciones',
                 'fecha_bautiso',
@@ -49,11 +51,17 @@ class BautizoApiController extends AppbaseController implements HasMiddleware
                 'iglesia_id'
             ])
             ->allowedSorts([
+                'id',
                 'observaciones',
                 'fecha_bautiso',
                 'persona_id',
                 'user_registra_id',
                 'iglesia_id'
+            ])
+            ->allowedIncludes([
+                'persona',
+                'userRegistra',
+                'iglesia'
             ])
             ->defaultSort('-id') // Ordenar por defecto por fecha descendente
             ->paginate($request->get('per_page', 10));
@@ -65,21 +73,65 @@ class BautizoApiController extends AppbaseController implements HasMiddleware
      * Store a newly created Bautizo in storage.
      * POST /bautisos
      */
+
     public function store(CreateBautizoApiRequest $request): JsonResponse
     {
+        // Obtenemos todos los datos validados del request
         $input = $request->all();
 
-        $bautisos = Bautizo::create($input);
+        // Usamos una transacción para asegurar integridad de datos
+        DB::beginTransaction();
 
-        return $this->sendResponse($bautisos->toArray(), 'Bautizo creado con éxito.');
+        try {
+            // Crea el registro del bautizo
+            $bautizo = Bautizo::create($input);
+
+            $this->guardarEnBitacora($bautizo, 'Bautizo creado', 'Se ha registrado un nuevo bautizo.');
+
+            $this->guardarEnBitacora($bautizo, 'Se agregó un comentario al Bautizo', $input['observaciones'] ?? 'Sin observaciones');
+            // Verifica si hay participantes en el input
+            if (!empty($input['participantes'])) {
+                // Asegura que cada participante sea solo su ID (por si viene como objeto)
+                $participantes = collect($input['participantes'])->map(function ($participante) {
+                    return is_array($participante) ? $participante['id'] : $participante;
+                });
+
+                // Sincroniza los participantes con el bautizo (inserta en tabla pivote)
+                $bautizo->participantes()->sync($participantes);
+
+                $this->guardarEnBitacora($bautizo, 'Participantes añadidos', 'Se han añadido participantes al bautizo.');
+
+            } else {
+                // Si no se envían participantes, aseguramos que la relación esté vacía
+                $bautizo->participantes()->detach();
+            }
+
+            // Si todo salió bien, confirmamos la transacción
+            DB::commit();
+
+            // Retornamos una respuesta exitosa
+            return $this->sendResponse($bautizo->toArray(), 'Bautizo creado con éxito.');
+        } catch (\Throwable $e) {
+            // Si algo falla, revertimos la transacción
+            DB::rollBack();
+
+            // Retornamos un error con el mensaje
+            return $this->sendError('Error al crear el bautizo.', $e->getMessage(), 500);
+        }
     }
-
     /**
      * Display the specified Bautizo.
      * GET|HEAD /bautisos/{id}
      */
     public function show(Bautizo $bautizo)
     {
+        $bautizo->load([
+            'persona',
+            'userRegistra',
+            'iglesia',
+            'participantes'
+        ]);
+
         return $this->sendResponse($bautizo->toArray(), 'Bautizo recuperado con éxito.');
     }
 
@@ -87,11 +139,58 @@ class BautizoApiController extends AppbaseController implements HasMiddleware
      * Update the specified Bautizo in storage.
      * PUT/PATCH /bautisos/{id}
      */
+
     public function update(UpdateBautizoApiRequest $request, $id): JsonResponse
     {
+        // Buscamos el bautizo, o lanzamos error 404 si no existe
         $bautizo = Bautizo::findOrFail($id);
-        $bautizo->update($request->validated());
-        return $this->sendResponse($bautizo, 'Bautizo actualizado con éxito.');
+
+        // Obtenemos los datos validados del request
+        $input = $request->validated();
+
+        // Iniciamos una transacción para asegurar consistencia en la actualización
+        DB::beginTransaction();
+
+        try {
+            // Actualizamos los campos del bautizo
+            $bautizo->update($input);
+
+            // Guardamos en bitácora el evento de actualización
+            $this->guardarEnBitacora($bautizo, 'Bautizo actualizado', $request->get('observaciones', 'Sin observaciones'));
+
+            // Verificamos si se enviaron participantes
+            if (!empty($input['participantes'])) {
+                // Aseguramos que solo se tomen los IDs de los participantes
+                $participantes = collect($input['participantes'])->map(function ($participante) {
+                    return is_array($participante) ? $participante['id'] : $participante;
+                });
+
+                //guardamos en bitácora los participantes
+                $this->guardarEnBitacora($bautizo, 'Participantes actualizados', 'Se han actualizado los participantes del bautizo.');
+
+
+                // Sincronizamos la relación (actualiza tabla pivote)
+                $bautizo->participantes()->sync($participantes);
+            } else {
+
+                //guardamos en bitácora que se eliminaron los participantes
+                $this->guardarEnBitacora($bautizo, 'Participantes', 'No se enviaron participantes, se eliminaron los existentes.');
+                // Si no se envían participantes, se eliminan los que tenía antes
+                $bautizo->participantes()->detach();
+            }
+
+            // Confirmamos la transacción
+            DB::commit();
+
+            // Respondemos con éxito
+            return $this->sendResponse($bautizo->toArray(), 'Bautizo actualizado con éxito.');
+        } catch (\Throwable $e) {
+            // Revertimos la transacción en caso de error
+            DB::rollBack();
+
+            // Respondemos con error y mensaje técnico
+            return $this->sendError('Error al actualizar el bautizo.'.$e->getMessage());
+        }
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace App\Models\Evento;
 
 
+use App\Models\Congregacion\Bautizo;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -45,6 +46,7 @@ class BautizoBitacora extends Model
 
 
     protected $fillable = [
+        'titulo',
         'descripcion',
         'fecha_registro',
         'bautiso_id',
@@ -99,7 +101,7 @@ class BautizoBitacora extends Model
      */
     public function bautiso()
     {
-        return $this->belongsTo(Bautiso::class, 'bautiso_id', 'id');
+        return $this->belongsTo(Bautizo::class, 'bautiso_id', 'id');
     }
 
     public function user()
