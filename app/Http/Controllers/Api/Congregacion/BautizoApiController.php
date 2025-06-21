@@ -199,8 +199,19 @@ class BautizoApiController extends AppbaseController implements HasMiddleware
      */
     public function destroy(Bautizo $bautizo): JsonResponse
     {
-        $bautizo->delete();
-        return $this->sendResponse(null, 'Bautizo eliminado con éxito.');
+        try {
+            DB::beginTransaction();
+            // Eliminamos el bautizo
+            $bautizo->participantes()->detach(); // Eliminamos la relación con los participantes
+            $bautizo->delete();
+            DB::commit();
+        }
+        catch (\Throwable $e) {
+            DB::rollBack();
+            return $this->sendError('Error al eliminar el bautizo.', $e->getMessage(), 500);
+        }
+        return $this->sendResponse([], 'Bautizo eliminado con éxito.');
+
     }
 
 }
