@@ -13,6 +13,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
+use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
 /**
@@ -48,7 +49,17 @@ class BautizoApiController extends AppbaseController implements HasMiddleware
                 'fecha_bautiso',
                 'persona_id',
                 'user_registra_id',
-                'iglesia_id'
+                'iglesia_id',
+                AllowedFilter::callback('nombre', function ($query, $value) {
+                    $query->whereHas('persona', function ($q) use ($value) {
+                        $q->where(function ($subQuery) use ($value) {
+                            $subQuery->where('primer_nombre', 'LIKE', "%{$value}%")
+                                ->orWhere('segundo_nombre', 'LIKE', "%{$value}%")
+                                ->orWhere('primer_apellido', 'LIKE', "%{$value}%")
+                                ->orWhere('segundo_apellido', 'LIKE', "%{$value}%");
+                        });
+                    });
+                }),
             ])
             ->allowedSorts([
                 'id',
