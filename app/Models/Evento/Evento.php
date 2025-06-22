@@ -3,8 +3,11 @@
 namespace App\Models\Evento;
 
 
+use App\Models\Ministerio\Ministerio;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -108,20 +111,28 @@ class Evento extends Model
      *
      * @var array
      */
-    public function tipo()
+    public function tipo(): BelongsTo
     {
         return $this->belongsTo(EventoTipo::class, 'tipo_id', 'id');
     }
-    public function iglesia()
+    public function iglesia(): BelongsTo
     {
         return $this->belongsTo(\App\Models\Iglesia\Iglesia::class, 'iglesia_id', 'id');
     }
 
-    public function participantes()
+    public function participantes(): BelongsToMany
     {
         return $this->belongsToMany(\App\Models\Persona\Persona::class,
             'eventos_has_personas',
             'eventos_id',
             'personas_id');
+    }
+
+    public function ministerios(): BelongsToMany
+    {
+        return $this->belongsToMany(Ministerio::class,
+            'eventos_has_ministerios',
+            'eventos_id',
+            'ministerios_id');
     }
 }

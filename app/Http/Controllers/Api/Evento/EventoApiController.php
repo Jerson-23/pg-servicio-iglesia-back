@@ -56,6 +56,9 @@ class EventoApiController extends AppbaseController implements HasMiddleware
                 'hora',
                 'direccion'
             ])
+            ->allowedIncludes([
+                'tipo',
+            ])
             ->defaultSort('-id') // Ordenar por defecto por fecha descendente
             ->paginate($request->get('per_page', 10));
 
@@ -68,11 +71,36 @@ class EventoApiController extends AppbaseController implements HasMiddleware
      */
     public function store(CreateEventoApiRequest $request): JsonResponse
     {
+        // Recopilar todos los datos validados del request
         $input = $request->all();
 
-        $eventos = Evento::create($input);
+        // Iniciar una transacción para asegurar que todo se realice correctamente o nada se guarde
+        DB::beginTransaction();
 
-        return $this->sendResponse($eventos->toArray(), 'Evento creado con éxito.');
+        try {
+            // Crear el evento con los datos principales
+            $evento = Evento::create($input);
+
+            // Si hay ministerios asociados, sincronizarlos con la relación (tabla pivot)
+            if (!empty($input['ministerios'])) {
+                //Extraer los IDs de los ministerios del input
+                $idsMinisterios = collect($input['ministerios'])->pluck('id')->toArray();
+                // Sincronizar los ministerios con el evento
+                $evento->ministerios()->sync($idsMinisterios);
+            }
+
+            // Confirmar la transacción: todo se guarda permanentemente
+            DB::commit();
+
+            // Retornar respuesta exitosa
+            return $this->sendResponse($evento->toArray(), 'Evento creado con éxito.');
+        } catch (\Throwable $e) {
+            // Si algo falla, deshacer cualquier cambio en la base de datos
+            DB::rollBack();
+
+            // Retornar un error con el mensaje de excepción (opcionalmente, podrías omitir el mensaje en producción)
+            return $this->sendError('Error al crear el evento.'.$e->getMessage(), 500);
+        }
     }
 
     /**
@@ -84,7 +112,8 @@ class EventoApiController extends AppbaseController implements HasMiddleware
         $evento->load([
             'tipo',
             'iglesia',
-            'participantes'
+            'participantes',
+            'ministerios'
         ]);
 
         return $this->sendResponse($evento->toArray(), 'Evento recuperado con éxito.');
@@ -96,9 +125,39 @@ class EventoApiController extends AppbaseController implements HasMiddleware
      */
     public function update(UpdateEventoApiRequest $request, $id): JsonResponse
     {
+        // Buscar el evento por ID
         $evento = Evento::findOrFail($id);
-        $evento->update($request->validated());
-        return $this->sendResponse($evento, 'Evento actualizado con éxito.');
+
+        // Recopilar todos los datos validados del request
+        $input = $request->all();
+
+        // Iniciar una transacción para asegurar que todo se realice correctamente o nada se guarde
+        DB::beginTransaction();
+
+        try {
+            // Actualizar el evento con los datos principales
+            $evento->update($input);
+
+            // Si hay ministerios asociados, sincronizarlos con la relación (tabla pivot)
+            if (!empty($input['ministerios'])) {
+                // Extraer los IDs de los ministerios del input
+                $idsMinisterios = collect($input['ministerios'])->pluck('id')->toArray();
+                // Sincronizar los ministerios con el evento
+                $evento->ministerios()->sync($idsMinisterios);
+            }
+
+            // Confirmar la transacción: todo se guarda permanentemente
+            DB::commit();
+
+            // Retornar respuesta exitosa
+            return $this->sendResponse($evento->toArray(), 'Evento actualizado con éxito.');
+        } catch (\Throwable $e) {
+            // Si algo falla, deshacer cualquier cambio en la base de datos
+            DB::rollBack();
+
+            // Retornar un error con el mensaje de excepción (opcionalmente, podrías omitir el mensaje en producción)
+            return $this->sendError('Error al actualizar el evento.'.$e->getMessage(), 500);
+        }
     }
 
     /**
