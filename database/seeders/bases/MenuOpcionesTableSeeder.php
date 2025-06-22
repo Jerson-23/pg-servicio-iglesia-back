@@ -278,7 +278,7 @@ class MenuOpcionesTableSeeder extends Seeder
             "id" => 24,
             "titulo" => "Actividades",
             "icono" => "ri-code-box-line",
-            "ruta" => null,
+            "ruta" => 'eventos',
             "orden" => 23,
             "action" => "Listar Eventos",
             "subject" => "Evento",
