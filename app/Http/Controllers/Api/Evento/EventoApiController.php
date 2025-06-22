@@ -10,6 +10,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Support\Facades\DB;
 use Spatie\QueryBuilder\QueryBuilder;
 
 /**
@@ -82,7 +83,8 @@ class EventoApiController extends AppbaseController implements HasMiddleware
     {
         $evento->load([
             'tipo',
-            'iglesia'
+            'iglesia',
+            'participantes'
         ]);
 
         return $this->sendResponse($evento->toArray(), 'Evento recuperado con éxito.');
@@ -107,6 +109,61 @@ class EventoApiController extends AppbaseController implements HasMiddleware
     {
         $evento->delete();
         return $this->sendResponse(null, 'Evento eliminado con éxito.');
+    }
+
+
+    public function marcarAsistencia(Request $request)
+    {
+        $request->validate([
+            'evento_id' => 'required|exists:eventos,id',
+            'persona_id' => 'required|exists:personas,id',
+        ]);
+
+        DB::beginTransaction();
+
+        try {
+            $evento = Evento::findOrFail($request->input('evento_id'));
+
+            // Evitar duplicados
+            if ($evento->participantes()->where('personas.id', $request->persona_id)->exists()) {
+                return $this->sendError('Esta persona ya fue registrada como asistente.', 409);
+            }
+
+            $evento->participantes()->attach($request->persona_id);
+
+            DB::commit();
+
+            return $this->sendSuccess('Asistencia marcada con éxito.');
+        } catch (\Throwable $e) {
+            DB::rollBack();
+            return $this->sendError('Error al registrar asistencia.', 500);
+        }
+    }
+    public function quitarAsistencia(Request $request)
+    {
+        $request->validate([
+            'evento_id' => 'required|exists:eventos,id',
+            'persona_id' => 'required|exists:personas,id',
+        ]);
+
+        DB::beginTransaction();
+
+        try {
+            $evento = Evento::findOrFail($request->input('evento_id'));
+
+            if (! $evento->participantes()->where('personas.id', $request->persona_id)->exists()) {
+                return $this->sendError('Esta persona no está registrada como asistente.', 404);
+            }
+
+            $evento->participantes()->detach($request->persona_id);
+
+            DB::commit();
+
+            return $this->sendSuccess('Asistencia retirada con éxito.');
+        } catch (\Throwable $e) {
+            DB::rollBack();
+            return $this->sendError('Error al quitar asistencia.', 500, $e->getMessage());
+        }
     }
 
 

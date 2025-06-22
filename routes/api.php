@@ -38,6 +38,10 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::apiResource('eventos', App\Http\Controllers\Api\Evento\EventoApiController::class);
 
+    Route::post('eventos/marcar/asistencia', [App\Http\Controllers\Api\Evento\EventoApiController::class, 'marcarAsistencia']);
+
+    Route::post('/eventos/quitar/asistencia', [App\Http\Controllers\Api\Evento\EventoApiController::class, 'quitarAsistencia']);
+
 
 
 });

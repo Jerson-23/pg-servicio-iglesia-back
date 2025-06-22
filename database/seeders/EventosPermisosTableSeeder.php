@@ -19,6 +19,7 @@ class EventosPermisosTableSeeder extends Seeder
             'Crear Eventos',
             'Editar Eventos',
             'Eliminar Eventos',
+            'Tomar Asistencia Eventos',
         ];
 
         foreach ($permisos as $permiso) {

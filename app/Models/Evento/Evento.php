@@ -116,4 +116,12 @@ class Evento extends Model
     {
         return $this->belongsTo(\App\Models\Iglesia\Iglesia::class, 'iglesia_id', 'id');
     }
+
+    public function participantes()
+    {
+        return $this->belongsToMany(\App\Models\Persona\Persona::class,
+            'eventos_has_personas',
+            'eventos_id',
+            'personas_id');
+    }
 }
