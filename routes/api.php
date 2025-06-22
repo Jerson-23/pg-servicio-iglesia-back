@@ -36,6 +36,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::apiResource('bautizos', App\Http\Controllers\Api\Congregacion\BautizoApiController::class);
 
+    Route::apiResource('eventos', App\Http\Controllers\Api\Evento\EventoApiController::class);
+
 
 
 });
@@ -47,6 +49,7 @@ Route::prefix('libres')->group(function () {
     require __DIR__.'/admin/Configuraciones/api_libres.php';
 
 });
+
 
 
 

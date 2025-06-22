@@ -40,6 +40,7 @@ class DatabaseSeeder extends Seeder
             IglesiasPermisosTableSeeder::class,
             PersonasPermisosTableSeeder::class,
             BautizosPermisosTableSeeder::class,
+            EventosPermisosTableSeeder::class,
         ]);
 
     }
