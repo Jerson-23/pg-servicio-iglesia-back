@@ -80,6 +80,11 @@ class EventoApiController extends AppbaseController implements HasMiddleware
      */
     public function show(Evento $evento)
     {
+        $evento->load([
+            'tipo',
+            'iglesia'
+        ]);
+
         return $this->sendResponse($evento->toArray(), 'Evento recuperado con éxito.');
     }
 

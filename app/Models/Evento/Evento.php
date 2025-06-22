@@ -48,15 +48,15 @@ class Evento extends Model
     protected $table = 'eventos';
 
 
-    protected $fillable =
-        [
-    'nombre',
-    'descripcion',
-    'tipo_id',
-    'fecha',
-    'hora',
-    'direccion'
-];
+    protected $fillable = [
+        'nombre',
+        'descripcion',
+        'tipo_id',
+        'fecha',
+        'hora',
+        'direccion',
+        'iglesia_id',
+    ];
 
 
     /**
@@ -64,8 +64,7 @@ class Evento extends Model
      *
      * @var array
      */
-    protected $casts =
-        [
+    protected $casts = [
         'id' => 'integer',
         'nombre' => 'string',
         'descripcion' => 'string',
@@ -79,21 +78,19 @@ class Evento extends Model
     ];
 
 
-
     /**
      * Validation rules
      *
      * @var array
      */
-    public static $rules =
-    [
-    'nombre' => 'required|string|max:100',
-    'descripcion' => 'required|string',
-    'tipo_id' => 'required|integer',
-    'fecha' => 'nullable|date',
-    'hora' => 'nullable|string',
-    'direccion' => 'nullable|string',
-];
+    public static $rules = [
+        'nombre' => 'required|string|max:100',
+        'descripcion' => 'required|string',
+        'tipo_id' => 'required|integer',
+        'fecha' => 'nullable|date',
+        'hora' => 'nullable|string',
+        'direccion' => 'nullable|string',
+    ];
 
 
     /**
@@ -101,7 +98,7 @@ class Evento extends Model
      *
      * @var array
      */
-    public static $messages =[
+    public static $messages = [
 
     ];
 
@@ -111,9 +108,12 @@ class Evento extends Model
      *
      * @var array
      */
-    public function eventoTipo()
+    public function tipo()
     {
-    return $this->belongsTo(EventoTipo::class,'tipo_id','id');
+        return $this->belongsTo(EventoTipo::class, 'tipo_id', 'id');
     }
-
+    public function iglesia()
+    {
+        return $this->belongsTo(\App\Models\Iglesia\Iglesia::class, 'iglesia_id', 'id');
+    }
 }
