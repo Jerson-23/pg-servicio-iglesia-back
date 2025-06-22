@@ -19,6 +19,7 @@ return new class extends Migration
             $table->dateTime('fecha')->nullable();
             $table->time('hora')->nullable();
             $table->text('direccion')->nullable();
+            $table->unsignedInteger('iglesia_id');
             $table->timestamps();
             $table->softDeletes();
         });

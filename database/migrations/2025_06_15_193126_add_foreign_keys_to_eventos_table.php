@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::table('eventos', function (Blueprint $table) {
             $table->foreign(['tipo_id'], 'fk_eventos_evento_tipos1')->references(['id'])->on('evento_tipos')->onUpdate('no action')->onDelete('no action');
+            $table->foreign(['iglesia_id'], 'fk_eventos_iglesias1')->references(['id'])->on('iglesias')->onUpdate('no action')->onDelete('no action');
         });
     }
 
@@ -23,6 +24,7 @@ return new class extends Migration
     {
         Schema::table('eventos', function (Blueprint $table) {
             $table->dropForeign('fk_eventos_evento_tipos1');
+            $table->dropForeign('fk_eventos_iglesias1');
         });
     }
 };
