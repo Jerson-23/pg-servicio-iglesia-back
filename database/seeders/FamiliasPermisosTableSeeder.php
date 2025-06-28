@@ -19,6 +19,7 @@ class FamiliasPermisosTableSeeder extends Seeder
             'Crear Familias',
             'Editar Familias',
             'Eliminar Familias',
+            'Ver Miembros Familias',
         ];
 
         foreach ($permisos as $permiso) {

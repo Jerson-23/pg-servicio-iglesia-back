@@ -3,14 +3,13 @@
 namespace App\Http\Controllers\Api\Persona;
 
 use App\Http\Controllers\AppBaseController;
-use Illuminate\Routing\Controllers\HasMiddleware;
-use Illuminate\Routing\Controllers\Middleware;
 use App\Http\Requests\Api\Persona\CreateFamiliaApiRequest;
 use App\Http\Requests\Api\Persona\UpdateFamiliaApiRequest;
 use App\Models\Persona\Familia;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Schema;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 use Spatie\QueryBuilder\QueryBuilder;
 
 /**
@@ -64,6 +63,10 @@ class FamiliaApiController extends AppbaseController implements HasMiddleware
 
         $familias = Familia::create($input);
 
+        if($input['personas'] ?? null) {
+            $familias->personas()->sync($input['personas']);
+        }
+
         return $this->sendResponse($familias->toArray(), 'Familia creado con éxito.');
     }
 
@@ -74,6 +77,7 @@ class FamiliaApiController extends AppbaseController implements HasMiddleware
      */
     public function show(Familia $familia)
     {
+        $familia->load('personas');
         return $this->sendResponse($familia->toArray(), 'Familia recuperado con éxito.');
     }
 

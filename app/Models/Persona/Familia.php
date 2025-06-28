@@ -3,12 +3,13 @@
 namespace App\Models\Persona;
 
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property string $nombre
@@ -37,10 +38,9 @@ class Familia extends Model
     protected $table = 'familias';
 
 
-    protected $fillable =
-        [
-    'nombre'
-];
+    protected $fillable = [
+        'nombre'
+    ];
 
 
     /**
@@ -48,8 +48,7 @@ class Familia extends Model
      *
      * @var array
      */
-    protected $casts =
-        [
+    protected $casts = [
         'id' => 'integer',
         'nombre' => 'string',
         'created_at' => 'timestamp',
@@ -58,16 +57,14 @@ class Familia extends Model
     ];
 
 
-
     /**
      * Validation rules
      *
      * @var array
      */
-    public static $rules =
-    [
-    'nombre' => 'required|string|max:100',
-];
+    public static $rules = [
+        'nombre' => 'required|string|max:100',
+    ];
 
 
     /**
@@ -75,7 +72,7 @@ class Familia extends Model
      *
      * @var array
      */
-    public static $messages =[
+    public static $messages = [
 
     ];
 
@@ -85,6 +82,15 @@ class Familia extends Model
      *
      * @var array
      */
-    
+
+    public function personas(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            Persona::class,
+            'personas_has_familias',
+            'familias_id',
+            'personas_id'
+        );
+    }
 
 }
