@@ -77,7 +77,7 @@ class FamiliaApiController extends AppbaseController implements HasMiddleware
      */
     public function show(Familia $familia)
     {
-        $familia->load('personas');
+        $familia->load('personas.familias');
         return $this->sendResponse($familia->toArray(), 'Familia recuperado con éxito.');
     }
 
@@ -103,4 +103,37 @@ class FamiliaApiController extends AppbaseController implements HasMiddleware
         return $this->sendResponse(null, 'Familia eliminado con éxito.');
     }
 
+    public function agregarMiembro(Request $request): JsonResponse
+    {
+        $request->validate([
+            'familia_id' => 'required|exists:familias,id',
+            'persona_id' => 'required|exists:personas,id',
+            'tipo_id' => 'required|exists:familia_tipos,id',
+        ]);
+
+        $familia = Familia::findOrFail($request->familia_id);
+
+        $familia
+            ->personas()
+            ->attach($request->persona_id, ['familia_tipos_id' => $request->tipo_id]);
+
+        return $this->sendResponse($familia->toArray(), 'Miembro agregado a la familia con éxito.');
+
+    }
+
+    public function eliminarMiembro(Request $request): JsonResponse
+    {
+        $request->validate([
+            'familia_id' => 'required|exists:familias,id',
+            'persona_id' => 'required|exists:personas,id',
+        ]);
+
+        $familia = Familia::findOrFail($request->familia_id);
+
+        $familia
+            ->personas()
+            ->detach($request->persona_id);
+
+        return $this->sendResponse($familia->toArray(), 'Miembro eliminado de la familia con éxito.');
+    }
 }

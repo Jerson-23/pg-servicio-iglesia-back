@@ -90,7 +90,7 @@ class Familia extends Model
             'personas_has_familias',
             'familias_id',
             'personas_id'
-        );
+        )->withPivot('familia_tipos_id');
     }
 
 }

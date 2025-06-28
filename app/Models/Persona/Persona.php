@@ -4,11 +4,11 @@ namespace App\Models\Persona;
 
 
 use App\Models\Ministerio\Ministerio;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Spatie\MediaLibrary\HasMedia;
 
 /**
  *
@@ -187,6 +187,14 @@ class Persona extends Model
     public function bitacoras(): HasMany
     {
         return $this->hasMany(PersonaBitacora::class, 'persona_id', 'id');
+    }
+
+    public function familias(): BelongsToMany
+    {
+        return $this->belongsToMany(Familia::class, 'personas_has_familias',
+            'personas_id',
+            'familias_id'
+        )->withPivot('familia_tipos_id');
     }
 
 }

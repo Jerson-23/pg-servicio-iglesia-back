@@ -22,6 +22,10 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::apiResource('persona/familias', App\Http\Controllers\Api\Persona\FamiliaApiController::class);
 
+    Route::post('persona/familia/agregar/miembro', [App\Http\Controllers\Api\Persona\FamiliaApiController::class, 'agregarMiembro']);
+
+    Route::post('persona/familia/eliminar/miembro', [App\Http\Controllers\Api\Persona\FamiliaApiController::class, 'eliminarMiembro']);
+
     Route::apiResource('evento/tipos', App\Http\Controllers\Api\Evento\EventoTipoApiController::class);
 
     Route::apiResource('persona/familia/tipos', App\Http\Controllers\Api\Persona\FamiliaTipoApiController::class);
@@ -41,8 +45,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('eventos/marcar/asistencia', [App\Http\Controllers\Api\Evento\EventoApiController::class, 'marcarAsistencia']);
 
     Route::post('/eventos/quitar/asistencia', [App\Http\Controllers\Api\Evento\EventoApiController::class, 'quitarAsistencia']);
-
-
 
 });
 

@@ -3,16 +3,15 @@
 namespace App\Http\Controllers\Api\Persona;
 
 use App\Http\Controllers\AppBaseController;
-use App\Traits\PersonaTrait;
-use Illuminate\Routing\Controllers\HasMiddleware;
-use Illuminate\Routing\Controllers\Middleware;
 use App\Http\Requests\Api\Persona\CreatePersonaApiRequest;
 use App\Http\Requests\Api\Persona\UpdatePersonaApiRequest;
 use App\Models\Persona\Persona;
+use App\Traits\PersonaTrait;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Schema;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -89,7 +88,8 @@ class PersonaApiController extends AppbaseController implements HasMiddleware
                 'ministerio',
                 'estado',
                 'nivelAcademico',
-                'genero'
+                'genero',
+                'familias',
             ])
             ->defaultSort('-id') // Ordenar por defecto por fecha descendente
             ->paginate($request->get('per_page', 10));
