@@ -46,6 +46,9 @@ class FamiliaApiController extends AppbaseController implements HasMiddleware
             ->allowedSorts([
                 'nombre'
             ])
+            ->allowedIncludes([
+                'personas',
+            ])
             ->defaultSort('-id') // Ordenar por defecto por fecha descendente
             ->paginate($request->get('per_page', 250));
 

@@ -190,7 +190,7 @@ class MenuOpcionesTableSeeder extends Seeder
         MenuOpcion::create([
             "id" => 16,
             "titulo" => "Miembros",
-            "icono" => "ri-code-box-line",
+            "icono" => "ri-user-community-fill",
             "ruta" => null,
             "orden" => 15,
             "action" => "Modulo Personas",
@@ -201,7 +201,7 @@ class MenuOpcionesTableSeeder extends Seeder
         MenuOpcion::create([
             "id" => 17,
             "titulo" => "Listar Miembros",
-            "icono" => "ri-code-box-line",
+            "icono" => "ri-list-check",
             "ruta" => "personas",
             "orden" => 16,
             "action" => "Listar Personas",
@@ -212,7 +212,7 @@ class MenuOpcionesTableSeeder extends Seeder
         MenuOpcion::create([
             "id" => 18,
             "titulo" => "Catálogos",
-            "icono" => "ri-code-box-line",
+            "icono" => "ri-folder-open-fill",
             "ruta" => null,
             "orden" => 17,
             "action" => "Listar Catálogos Personas",
@@ -223,7 +223,7 @@ class MenuOpcionesTableSeeder extends Seeder
         MenuOpcion::create([
             "id" => 19,
             "titulo" => "Géneros",
-            "icono" => "ri-code-box-line",
+            "icono" => "ri-group-fill",
             "ruta" => 'personas-catalogos-generos',
             "orden" => 18,
             "action" => "Listar Persona Generos",
@@ -234,7 +234,7 @@ class MenuOpcionesTableSeeder extends Seeder
         MenuOpcion::create([
             "id" => 20,
             "titulo" => "Estados",
-            "icono" => "ri-code-box-line",
+            "icono" => "ri-folder-check-fill",
             "ruta" => 'personas-catalogos-estados',
             "orden" => 19,
             "action" => "Listar Persona Estados",
@@ -245,7 +245,7 @@ class MenuOpcionesTableSeeder extends Seeder
         MenuOpcion::create([
             "id" => 21,
             "titulo" => "Niveles Académicos",
-            "icono" => "ri-code-box-line",
+            "icono" => "ri-graduation-cap-fill",
             "ruta" => 'personas-catalogos-nivel-academico',
             "orden" => 20,
             "action" => "Listar Persona Nivel Academicos",
@@ -256,7 +256,7 @@ class MenuOpcionesTableSeeder extends Seeder
         MenuOpcion::create([
             "id" => 22,
             "titulo" => "Eventos",
-            "icono" => "ri-code-box-line",
+            "icono" => "ri-calendar-event-line",
             "ruta" => null,
             "orden" => 21,
             "action" => "Modulo Eventos",
@@ -267,7 +267,7 @@ class MenuOpcionesTableSeeder extends Seeder
         MenuOpcion::create([
             "id" => 23,
             "titulo" => "Bautizos",
-            "icono" => "ri-code-box-line",
+            "icono" => "ri-goblet-fill",
             "ruta" => 'congregacion-bautizos',
             "orden" => 22,
             "action" => "Listar Bautizos",
@@ -277,7 +277,7 @@ class MenuOpcionesTableSeeder extends Seeder
         MenuOpcion::create([
             "id" => 24,
             "titulo" => "Actividades",
-            "icono" => "ri-code-box-line",
+            "icono" => "ri-calendar-schedule-fill",
             "ruta" => 'eventos',
             "orden" => 23,
             "action" => "Listar Eventos",
@@ -288,7 +288,7 @@ class MenuOpcionesTableSeeder extends Seeder
         MenuOpcion::create([
             "id" => 25,
             "titulo" => "Catálogos",
-            "icono" => "ri-code-box-line",
+            "icono" => "ri-folder-open-fill",
             "ruta" => 'eventos-catalogos-tipos',
             "orden" => 24,
             "action" => "Modulo Catalogos Eventos", //Pendiente
@@ -298,7 +298,7 @@ class MenuOpcionesTableSeeder extends Seeder
         MenuOpcion::create([
             "id" => 26,
             "titulo" => "Tipos de Eventos",
-            "icono" => "ri-code-box-line",
+            "icono" => "ri-calendar-fill",
             "ruta" => 'eventos-catalogos-tipos',
             "orden" => 25,
             "action" => "Listar Evento Tipos",
@@ -309,7 +309,7 @@ class MenuOpcionesTableSeeder extends Seeder
         MenuOpcion::create([
             "id" => 27,
             "titulo" => "Congregación",
-            "icono" => "ri-code-box-line",
+            "icono" => "ri-organization-chart",
             "ruta" => null,
             "orden" => 26,
             "action" => "Modulo Congregación",
@@ -320,7 +320,7 @@ class MenuOpcionesTableSeeder extends Seeder
         MenuOpcion::create([
             "id" => 28,
             "titulo" => "Iglesias",
-            "icono" => "ri-code-box-line",
+            "icono" => "ri-government-fill",
             "ruta" => 'iglesias-catalogos-iglesias',
             "orden" => 27,
             "action" => "Listar Iglesias",
@@ -331,7 +331,7 @@ class MenuOpcionesTableSeeder extends Seeder
         MenuOpcion::create([
             "id" => 29,
             "titulo" => "Ministerios",
-            "icono" => "ri-code-box-line",
+            "icono" => "ri-group-3-fill",
             "ruta" => 'ministerios',
             "orden" => 28,
             "action" => "Listar Ministerios",
@@ -342,7 +342,7 @@ class MenuOpcionesTableSeeder extends Seeder
         MenuOpcion::create([
             "id" => 30,
             "titulo" => "Familias",
-            "icono" => "ri-code-box-line",
+            "icono" => "ri-user-community-line",
             "ruta" => 'personas-catalogos-familias',
             "orden" => 29,
             "action" => "Listar Familias",
@@ -353,7 +353,7 @@ class MenuOpcionesTableSeeder extends Seeder
         MenuOpcion::create([
             "id" => 31,
             "titulo" => "Catálogos",
-            "icono" => "ri-code-box-line",
+            "icono" => "ri-folder-open-fill",
             "ruta" => null,
             "orden" => 30,
             "action" => "Modulo Catalogos Congregacion",
@@ -363,12 +363,22 @@ class MenuOpcionesTableSeeder extends Seeder
         MenuOpcion::create([
             "id" => 32,
             "titulo" => "Grados de Parentesco",
-            "icono" => "ri-code-box-line",
+            "icono" => "ri-group-2-line",
             "ruta" => 'personas-catalogos-familia-tipos',
             "orden" => 31,
             "action" => "Listar Familia Tipos",
             "subject" => "FamiliaTipo",
             "parent_id" => 31
+        ]);
+        MenuOpcion::create([
+            "id" => 33,
+            "titulo" => "Gráficas",
+            "icono" => "ri-pie-chart-fill",
+            "ruta" => 'graficas',
+            "orden" => 32,
+            "action" => "Ver Graficas",
+            "subject" => "Graficas",
+            "parent_id" => null
         ]);
 
 

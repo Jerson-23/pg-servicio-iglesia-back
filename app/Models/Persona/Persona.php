@@ -3,11 +3,14 @@
 namespace App\Models\Persona;
 
 
+use App\Models\Congregacion\Bautizo;
+use App\Models\Evento\Evento;
 use App\Models\Ministerio\Ministerio;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -195,6 +198,21 @@ class Persona extends Model
             'personas_id',
             'familias_id'
         )->withPivot('familia_tipos_id');
+    }
+
+    public function bautizo(): HasOne
+    {
+        return $this->hasOne(Bautizo::class, 'persona_id', 'id');
+    }
+
+    public function eventosParticipados(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            Evento::class,
+            'eventos_has_personas',
+            'personas_id',
+            'eventos_id'
+        );
     }
 
 }
