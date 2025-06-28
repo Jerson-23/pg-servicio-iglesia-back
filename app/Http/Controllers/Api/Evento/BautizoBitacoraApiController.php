@@ -3,14 +3,13 @@
 namespace App\Http\Controllers\Api\Evento;
 
 use App\Http\Controllers\AppBaseController;
-use Illuminate\Routing\Controllers\HasMiddleware;
-use Illuminate\Routing\Controllers\Middleware;
 use App\Http\Requests\Api\Evento\CreateBautizoBitacoraApiRequest;
 use App\Http\Requests\Api\Evento\UpdateBautizoBitacoraApiRequest;
 use App\Models\Evento\BautizoBitacora;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Schema;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 use Spatie\QueryBuilder\QueryBuilder;
 
 /**
@@ -54,7 +53,7 @@ class BautizoBitacoraApiController extends AppbaseController implements HasMiddl
             ])
             ->allowedIncludes(['bautizo.persona', 'userRegistra'])
             ->defaultSort('-id') // Ordenar por defecto por fecha descendente
-            ->paginate($request->get('per_page', 10));
+            ->paginate($request->get('per_page', 250));
 
         return $this->sendResponse($bautiso_bitacoras->toArray(), 'Bitácoras recuperados con éxito.');
     }

@@ -3,14 +3,13 @@
 namespace App\Http\Controllers\Api\Iglesia;
 
 use App\Http\Controllers\AppBaseController;
-use Illuminate\Routing\Controllers\HasMiddleware;
-use Illuminate\Routing\Controllers\Middleware;
 use App\Http\Requests\Api\Iglesia\CreateIglesiaApiRequest;
 use App\Http\Requests\Api\Iglesia\UpdateIglesiaApiRequest;
 use App\Models\Iglesia\Iglesia;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Schema;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 use Spatie\QueryBuilder\QueryBuilder;
 
 /**
@@ -54,7 +53,7 @@ class IglesiaApiController extends AppbaseController implements HasMiddleware
                 'pastor',
             ])
             ->defaultSort('-id') // Ordenar por defecto por fecha descendente
-            ->paginate($request->get('per_page', 10));
+            ->paginate($request->get('per_page', 250));
 
         return $this->sendResponse($iglesias->toArray(), 'iglesias recuperados con éxito.');
     }

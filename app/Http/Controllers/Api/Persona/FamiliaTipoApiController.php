@@ -3,14 +3,13 @@
 namespace App\Http\Controllers\Api\Persona;
 
 use App\Http\Controllers\AppBaseController;
-use Illuminate\Routing\Controllers\HasMiddleware;
-use Illuminate\Routing\Controllers\Middleware;
 use App\Http\Requests\Api\Persona\CreateFamiliaTipoApiRequest;
 use App\Http\Requests\Api\Persona\UpdateFamiliaTipoApiRequest;
 use App\Models\Persona\FamiliaTipo;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Schema;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 use Spatie\QueryBuilder\QueryBuilder;
 
 /**
@@ -48,7 +47,7 @@ class FamiliaTipoApiController extends AppbaseController implements HasMiddlewar
                 'nombre'
             ])
             ->defaultSort('-id') // Ordenar por defecto por fecha descendente
-            ->paginate($request->get('per_page', 10));
+            ->paginate($request->get('per_page', 250));
 
         return $this->sendResponse($familia_tipos->toArray(), 'familia_tipos recuperados con éxito.');
     }

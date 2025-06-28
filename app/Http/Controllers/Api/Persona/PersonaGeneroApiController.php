@@ -3,14 +3,13 @@
 namespace App\Http\Controllers\Api\Persona;
 
 use App\Http\Controllers\AppBaseController;
-use Illuminate\Routing\Controllers\HasMiddleware;
-use Illuminate\Routing\Controllers\Middleware;
 use App\Http\Requests\Api\Persona\CreatePersonaGeneroApiRequest;
 use App\Http\Requests\Api\Persona\UpdatePersonaGeneroApiRequest;
 use App\Models\Persona\PersonaGenero;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Schema;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 use Spatie\QueryBuilder\QueryBuilder;
 
 /**
@@ -48,7 +47,7 @@ class PersonaGeneroApiController extends AppbaseController implements HasMiddlew
                 'nombre'
             ])
             ->defaultSort('-id') // Ordenar por defecto por fecha descendente
-            ->paginate($request->get('per_page', 10));
+            ->paginate($request->get('per_page', 250));
 
         return $this->sendResponse($persona_generos->toArray(), 'Generos recuperados con éxito.');
     }

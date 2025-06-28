@@ -92,7 +92,7 @@ class PersonaApiController extends AppbaseController implements HasMiddleware
                 'familias',
             ])
             ->defaultSort('-id') // Ordenar por defecto por fecha descendente
-            ->paginate($request->get('per_page', 10));
+            ->paginate($request->get('per_page', 250));
 
         return $this->sendResponse($personas->toArray(), 'personas recuperados con éxito.');
     }

@@ -47,7 +47,7 @@ class UserEstadoApiController extends AppbaseController implements HasMiddleware
                 'nombre'
             ])
             ->defaultSort('-id') // Ordenar por defecto por fecha descendente
-            ->paginate($request->get('per_page', 10));
+            ->paginate($request->get('per_page', 250));
 
         return $this->sendResponse($users_estados->toArray(), 'Estados recuperados con éxito.');
     }

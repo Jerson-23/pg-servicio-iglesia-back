@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Persona\Persona;
 use Illuminate\Database\Seeder;
 
 class PersonaTableSeeder extends Seeder
@@ -13,6 +14,7 @@ class PersonaTableSeeder extends Seeder
      */
     public function run()
     {
-        //agregar la logica para crear registros en la tabla
+
+        Persona::factory()->count(50)->create();
     }
 }

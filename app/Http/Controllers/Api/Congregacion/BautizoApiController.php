@@ -3,16 +3,14 @@
 namespace App\Http\Controllers\Api\Congregacion;
 
 use App\Http\Controllers\AppBaseController;
-use App\Traits\BautizoTrait;
-use Illuminate\Routing\Controllers\HasMiddleware;
-use Illuminate\Routing\Controllers\Middleware;
 use App\Http\Requests\Api\Congregacion\CreateBautizoApiRequest;
-use App\Http\Requests\Api\Congregacion\UpdateBautizoApiRequest;
 use App\Models\Congregacion\Bautizo;
+use App\Traits\BautizoTrait;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Schema;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -75,7 +73,7 @@ class BautizoApiController extends AppbaseController implements HasMiddleware
                 'iglesia'
             ])
             ->defaultSort('-id') // Ordenar por defecto por fecha descendente
-            ->paginate($request->get('per_page', 10));
+            ->paginate($request->get('per_page', 250));
 
         return $this->sendResponse($bautisos->toArray(), 'bautisos recuperados con éxito.');
     }

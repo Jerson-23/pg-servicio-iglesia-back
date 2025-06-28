@@ -3,14 +3,13 @@
 namespace App\Http\Controllers\Api\Persona;
 
 use App\Http\Controllers\AppBaseController;
-use Illuminate\Routing\Controllers\HasMiddleware;
-use Illuminate\Routing\Controllers\Middleware;
 use App\Http\Requests\Api\Persona\CreatePersonaBitacoraApiRequest;
 use App\Http\Requests\Api\Persona\UpdatePersonaBitacoraApiRequest;
 use App\Models\Persona\PersonaBitacora;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Schema;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 use Spatie\QueryBuilder\QueryBuilder;
 
 /**
@@ -57,7 +56,7 @@ class PersonaBitacoraApiController extends AppbaseController implements HasMiddl
                 'userRegistra'
             ])
             ->defaultSort('-id') // Ordenar por defecto por fecha descendente
-            ->paginate($request->get('per_page', 10));
+            ->paginate($request->get('per_page', 250));
 
         return $this->sendResponse($persona_bitacoras->toArray(), 'persona_bitacoras recuperados con éxito.');
     }

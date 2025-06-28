@@ -3,14 +3,13 @@
 namespace App\Http\Controllers\Api\Persona;
 
 use App\Http\Controllers\AppBaseController;
-use Illuminate\Routing\Controllers\HasMiddleware;
-use Illuminate\Routing\Controllers\Middleware;
 use App\Http\Requests\Api\Persona\CreatePersonaEstadoApiRequest;
 use App\Http\Requests\Api\Persona\UpdatePersonaEstadoApiRequest;
 use App\Models\Persona\PersonaEstado;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Schema;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 use Spatie\QueryBuilder\QueryBuilder;
 
 /**
@@ -48,7 +47,7 @@ class PersonaEstadoApiController extends AppbaseController implements HasMiddlew
                 'nombre'
             ])
             ->defaultSort('-id') // Ordenar por defecto por fecha descendente
-            ->paginate($request->get('per_page', 10));
+            ->paginate($request->get('per_page', 250));
 
         return $this->sendResponse($persona_estados->toArray(), '=Estados recuperados con éxito.');
     }

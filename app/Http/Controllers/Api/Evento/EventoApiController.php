@@ -60,7 +60,7 @@ class EventoApiController extends AppbaseController implements HasMiddleware
                 'tipo',
             ])
             ->defaultSort('-id') // Ordenar por defecto por fecha descendente
-            ->paginate($request->get('per_page', 10));
+            ->paginate($request->get('per_page', 250));
 
         return $this->sendResponse($eventos->toArray(), 'eventos recuperados con éxito.');
     }
