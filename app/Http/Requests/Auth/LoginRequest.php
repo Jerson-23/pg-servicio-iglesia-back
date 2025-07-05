@@ -37,7 +37,7 @@ class LoginRequest extends FormRequest
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function authenticate(): void
+    public function authenticate(): string|null
     {
         $this->ensureIsNotRateLimited();
 
@@ -50,6 +50,16 @@ class LoginRequest extends FormRequest
         }
 
         RateLimiter::clear($this->throttleKey());
+
+        if (env('MODO_AUTENTICACION') === 'Token') {
+            $user = Auth::user();
+            $token = $user
+                ->createToken('auth_token')
+                ->plainTextToken;
+            return $token;
+        }
+
+        return null;
     }
 
     /**
