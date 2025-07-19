@@ -18,6 +18,7 @@ return new class extends Migration
             $table->time('hora_bautiso');
             $table->unsignedInteger('persona_id')->index('fk_bautisos_personas1_idx');
             $table->unsignedBigInteger('user_registra_id')->index('fk_bautisos_users1_idx');
+            $table->unsignedBigInteger('ministro_id');
             $table->unsignedInteger('iglesia_id')->index('fk_bautisos_iglesias1_idx');
             $table->timestamps();
             $table->softDeletes();

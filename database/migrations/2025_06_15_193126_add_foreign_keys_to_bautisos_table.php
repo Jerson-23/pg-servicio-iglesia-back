@@ -15,6 +15,7 @@ return new class extends Migration
             $table->foreign(['iglesia_id'], 'fk_bautisos_iglesias1')->references(['id'])->on('iglesias')->onUpdate('no action')->onDelete('no action');
             $table->foreign(['persona_id'], 'fk_bautisos_personas1')->references(['id'])->on('personas')->onUpdate('no action')->onDelete('no action');
             $table->foreign(['user_registra_id'], 'fk_bautisos_users1')->references(['id'])->on('users')->onUpdate('no action')->onDelete('no action');
+            $table->foreign(['ministro_id'], 'fk_bautisos_users2')->references(['id'])->on('users')->onUpdate('no action')->onDelete('no action');
         });
     }
 
@@ -27,6 +28,7 @@ return new class extends Migration
             $table->dropForeign('fk_bautisos_iglesias1');
             $table->dropForeign('fk_bautisos_personas1');
             $table->dropForeign('fk_bautisos_users1');
+            $table->dropForeign('fk_bautisos_users2');
         });
     }
 };

@@ -27,6 +27,13 @@ return new class extends Migration
             $table->string('dpi', 13)->nullable();
             $table->unsignedInteger('nivel_academico_id')->index('fk_personas_persona_niveles_academicos1_idx');
             $table->unsignedInteger('genero_id')->index('fk_personas_persona_generos1_idx');
+            $table->unsignedInteger('nacionalidad_id')->index('fk_personas_persona_nacionalidad_idx');
+            $table->boolean('sabe_leer')->nullable();
+            $table->boolean('sabe_escribir')->nullable();
+            $table->boolean('es_obrero')->nullable();
+            $table->enum('estado_civil', ['soltero', 'casado']);
+            $table->unsignedInteger('conyugue_id')->index('fk_personas_persona_conyugue_idx')->nullable();
+
             $table->timestamps();
             $table->softDeletes();
         });
