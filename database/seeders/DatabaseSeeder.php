@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
             EventoTipoTableSeeder::class,
             FamiliaTipoTableSeeder::class,
             IglesiaTableSeeder::class,
+            NacionalidadesTableSeeder::class,
         ]);
 
         //Permisos
