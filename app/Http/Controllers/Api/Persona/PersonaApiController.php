@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Persona;
 use App\Http\Controllers\AppBaseController;
 use App\Http\Requests\Api\Persona\CreatePersonaApiRequest;
 use App\Http\Requests\Api\Persona\UpdatePersonaApiRequest;
+use App\Models\Nacionalidad;
 use App\Models\Persona\Persona;
 use App\Traits\PersonaTrait;
 use Illuminate\Http\JsonResponse;
@@ -141,7 +142,7 @@ class PersonaApiController extends AppbaseController implements HasMiddleware
             \Log::error('Error al crear persona: '.$e->getMessage());
 
             // Retorna una respuesta de error al cliente
-            return $this->sendError('Ocurrió un error al crear la persona.', 500);
+            return $this->sendError('Ocurrió un error al crear la persona.'.$e->getMessage() , 500);
         }
     }
 
@@ -153,7 +154,6 @@ class PersonaApiController extends AppbaseController implements HasMiddleware
     {
         return $this->sendResponse($persona->toArray(), 'Persona recuperado con éxito.');
     }
-
 
     public function update(UpdatePersonaApiRequest $request, $id): JsonResponse
     {
@@ -192,7 +192,6 @@ class PersonaApiController extends AppbaseController implements HasMiddleware
         }
     }
 
-
     public function destroy(Persona $persona): JsonResponse
     {
         // Inicia una transacción para asegurar consistencia
@@ -225,6 +224,14 @@ class PersonaApiController extends AppbaseController implements HasMiddleware
             // Retorna respuesta de error
             return $this->sendError('Ocurrió un error al eliminar la persona.', 500);
         }
+    }
+
+    public function getNacionalidades()
+    {
+        $nacionalidades = Nacionalidad::all();
+
+        return $this->sendResponse($nacionalidades, 'Nacionalidades recuperadas con exito');
+
     }
 
 }

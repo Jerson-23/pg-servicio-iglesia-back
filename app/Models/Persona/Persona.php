@@ -85,7 +85,12 @@ class Persona extends Model
         'correlativo',
         'dpi',
         'nivel_academico_id',
-        'genero_id'
+        'genero_id',
+        'nacionalidad_id',
+        'sabe_leer',
+        'sabe_escribir',
+        'estado_civil',
+        'es_obrero',
     ];
 
 

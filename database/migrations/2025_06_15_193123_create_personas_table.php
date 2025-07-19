@@ -31,7 +31,12 @@ return new class extends Migration
             $table->boolean('sabe_leer')->nullable();
             $table->boolean('sabe_escribir')->nullable();
             $table->boolean('es_obrero')->nullable();
-            $table->enum('estado_civil', ['soltero', 'casado']);
+            $table->enum('estado_civil', [
+                'Soltero(a)',
+                'Casado(a)',
+                'Divorciado(a)',
+                'Viudo(a)',
+                ]);
             $table->unsignedInteger('conyugue_id')->index('fk_personas_persona_conyugue_idx')->nullable();
 
             $table->timestamps();
