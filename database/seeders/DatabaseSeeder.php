@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
             FamiliaTipoTableSeeder::class,
             IglesiaTableSeeder::class,
             NacionalidadesTableSeeder::class,
+            ProfecionesTableSeeder::class,
         ]);
 
         //Permisos

@@ -92,6 +92,8 @@ class Persona extends Model
         'estado_civil',
         'es_obrero',
         'conyugue_id',
+        'celular',
+        'profesion_id',
     ];
 
 
@@ -220,5 +222,12 @@ class Persona extends Model
             'eventos_id'
         );
     }
+
+    public function conyugue(): HasOne
+    {
+        return $this->hasOne(Persona::class, 'id', 'conyugue_id');
+
+    }
+
 
 }

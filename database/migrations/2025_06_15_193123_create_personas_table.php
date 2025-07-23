@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('primer_apellido', 120);
             $table->string('segundo_apellido', 120)->nullable();
             $table->string('telefono', 12);
+            $table->string('celular', 12)->nullable();
             $table->text('direccion');
             $table->string('email', 150)->nullable();
             $table->unsignedInteger('ministerio_id')->index('fk_personas_ministerios1_idx');
@@ -38,6 +39,7 @@ return new class extends Migration
                 'Viudo(a)',
                 ]);
             $table->unsignedInteger('conyugue_id')->index('fk_personas_persona_conyugue_idx')->nullable();
+            $table->unsignedInteger('profesion_id')->index('fk_personas_persona_profesion_idx')->nullable();
 
             $table->timestamps();
             $table->softDeletes();

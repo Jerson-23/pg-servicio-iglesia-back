@@ -58,6 +58,7 @@ class Bautizo extends Model
         'persona_id',
         'user_registra_id',
         'iglesia_id',
+        'ministro_id',
     ];
 
 
@@ -92,6 +93,7 @@ class Bautizo extends Model
         'user_registra_id' => 'required|integer',
         'iglesia_id' => 'required|integer',
         'hora_bautiso' => 'required|date_format:H:i',
+        'ministro_id' => 'required|integer',
     ];
 
 
