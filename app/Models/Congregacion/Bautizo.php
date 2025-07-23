@@ -7,10 +7,11 @@ use App\Models\Evento\BautizoBitacora;
 use App\Models\Iglesia\Iglesia;
 use App\Models\Persona\Persona;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  *
@@ -134,6 +135,12 @@ class Bautizo extends Model
     public function bitacoras()
     {
         return $this->hasMany(BautizoBitacora::class, 'bautiso_id', 'id');
+
+    }
+
+    public function ministroBautiza(): HasOne
+    {
+        return $this->hasOne(User::class, 'id', 'ministro_id');
 
     }
 

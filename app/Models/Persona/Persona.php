@@ -91,6 +91,7 @@ class Persona extends Model
         'sabe_escribir',
         'estado_civil',
         'es_obrero',
+        'conyugue_id',
     ];
 
 

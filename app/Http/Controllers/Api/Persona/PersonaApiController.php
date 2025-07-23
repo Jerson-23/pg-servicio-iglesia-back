@@ -92,6 +92,7 @@ class PersonaApiController extends AppbaseController implements HasMiddleware
                 'genero',
                 'familias',
                 'bautizo',
+                'bautizo.ministroBautiza',
                 'eventosParticipados',
             ])
             ->defaultSort('-id') // Ordenar por defecto por fecha descendente
@@ -165,7 +166,7 @@ class PersonaApiController extends AppbaseController implements HasMiddleware
             $persona = Persona::findOrFail($id);
 
             // Actualiza la persona con los datos validados del request
-            $persona->update($request->validated());
+            $persona->update($request->all());
 
             // Registra la actualización en la bitácora
             $this->guardarEnBitacora(
