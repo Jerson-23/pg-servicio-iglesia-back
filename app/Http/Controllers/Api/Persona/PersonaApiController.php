@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api\Persona;
 use App\Http\Controllers\AppBaseController;
 use App\Http\Requests\Api\Persona\CreatePersonaApiRequest;
 use App\Http\Requests\Api\Persona\UpdatePersonaApiRequest;
-use App\Models\Nacionalidad;
+use App\Models\Persona\Nacionalidad;
 use App\Models\Persona\Persona;
 use App\Traits\PersonaTrait;
 use Illuminate\Http\JsonResponse;

@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Profesion;
+use App\Models\Persona\Profesion;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 

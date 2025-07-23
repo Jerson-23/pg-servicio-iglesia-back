@@ -229,5 +229,9 @@ class Persona extends Model
 
     }
 
+    public function profesion()
+    {
+        return $this->belongsTo(Profesion::class, 'profesion_id', 'id');
+    }
 
 }

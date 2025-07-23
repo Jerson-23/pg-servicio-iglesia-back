@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Ministerio\Ministerio;
-use App\Models\Nacionalidad;
+use App\Models\Persona\Nacionalidad;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
