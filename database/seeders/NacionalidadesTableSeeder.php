@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\Ministerio\Ministerio;
 use App\Models\Persona\Nacionalidad;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -16,7 +15,7 @@ class NacionalidadesTableSeeder extends Seeder
     {
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
 
-        Ministerio::truncate();
+        Nacionalidad::truncate();
 
         $nacionalidades = [
             'Alemana', 'Argentina', 'Australiana', 'Belga', 'Boliviana',

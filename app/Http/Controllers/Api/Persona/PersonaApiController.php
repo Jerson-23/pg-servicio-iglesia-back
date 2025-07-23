@@ -95,6 +95,7 @@ class PersonaApiController extends AppbaseController implements HasMiddleware
                 'bautizo.ministroBautiza',
                 'eventosParticipados',
                 'conyugue',
+                'profesion',
             ])
             ->defaultSort('-id') // Ordenar por defecto por fecha descendente
             ->paginate($request->get('per_page', 250));
