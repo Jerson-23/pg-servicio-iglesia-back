@@ -48,6 +48,9 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::post('/eventos/quitar/asistencia', [App\Http\Controllers\Api\Evento\EventoApiController::class, 'quitarAsistencia']);
 
+    Route::apiResource('profesiones', App\Http\Controllers\Api\Persona\ProfesionApiController::class)
+        ->parameters(['profesiones' => 'profesion']);
+
 });
 
 require __DIR__.'/auth.php';
