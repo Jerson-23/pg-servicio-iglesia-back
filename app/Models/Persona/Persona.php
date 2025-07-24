@@ -5,6 +5,7 @@ namespace App\Models\Persona;
 
 use App\Models\Congregacion\Bautizo;
 use App\Models\Evento\Evento;
+use App\Models\Iglesia\Iglesia;
 use App\Models\Ministerio\Ministerio;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -95,6 +96,8 @@ class Persona extends Model
         'conyugue_id',
         'celular',
         'profesion_id',
+        'apellido_casada',
+        'iglesia_id',
     ];
 
 
@@ -233,6 +236,15 @@ class Persona extends Model
     public function profesion()
     {
         return $this->belongsTo(Profesion::class, 'profesion_id', 'id');
+    }
+
+    public function nacionalidad()
+    {
+        return $this->belongsTo(Nacionalidad::class, 'nacionalidad_id', 'id');
+    }
+    public function iglesia()
+    {
+        return $this->belongsTo(Iglesia::class, 'iglesia_id', 'id');
     }
 
 }

@@ -19,6 +19,8 @@ return new class extends Migration
             $table->foreign(['nacionalidad_id'], 'fk_personas_persona_nacionalidad_id')->references(['id'])->on('nacionalidades')->onUpdate('no action')->onDelete('no action');
             $table->foreign(['conyugue_id'], 'fk_personas_persona_conyugue_id')->references(['id'])->on('personas')->onUpdate('no action')->onDelete('no action');
             $table->foreign(['profesion_id'], 'fk_personas_persona_profesion_id')->references(['id'])->on('profesiones')->onUpdate('no action')->onDelete('no action');
+            $table->foreign(['iglesia_id'], 'fk_personas_persona_iglesia_id')->references(['id'])->on('iglesias')->onUpdate('no action')->onDelete('no action');
+
 
 
         });
@@ -36,7 +38,8 @@ return new class extends Migration
             $table->dropForeign('fk_personas_persona_niveles_academicos1');
             $table->dropForeign('fk_personas_persona_nacionalidad_id');
             $table->dropForeign('fk_personas_persona_conyugue_id');
-//            $table->dropForeign('fk_personas_persona_profesion_id');
+            $table->dropForeign('fk_personas_persona_profesion_id');
+            $table->dropForeign('fk_personas_persona_iglesia_id');
         });
     }
 };

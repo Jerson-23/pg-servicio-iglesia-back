@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('segundo_nombre', 120)->nullable();
             $table->string('primer_apellido', 120);
             $table->string('segundo_apellido', 120)->nullable();
+            $table->string('apellido_casada', 120)->nullable();
             $table->string('telefono', 12);
             $table->string('celular', 12)->nullable();
             $table->text('direccion');
@@ -41,6 +42,7 @@ return new class extends Migration
                 ]);
             $table->unsignedInteger('conyugue_id')->index('fk_personas_persona_conyugue_idx')->nullable();
             $table->unsignedInteger('profesion_id')->index('fk_personas_persona_profesion_idx')->nullable();
+            $table->unsignedInteger('iglesia_id')->index('fk_personas_persona_iglesia_idx')->nullable();
 
             $table->timestamps();
             $table->softDeletes();
