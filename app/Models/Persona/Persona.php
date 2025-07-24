@@ -89,6 +89,7 @@ class Persona extends Model
         'nacionalidad_id',
         'sabe_leer',
         'sabe_escribir',
+        'es_ministro',
         'estado_civil',
         'es_obrero',
         'conyugue_id',
