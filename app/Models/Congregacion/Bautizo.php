@@ -12,6 +12,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
 /**
  *
@@ -42,11 +44,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Bautizo withoutTrashed()
  * @mixin \Eloquent
  */
-class Bautizo extends Model
+class Bautizo extends Model implements HasMedia
 {
 
     use SoftDeletes;
     use HasFactory;
+    use InteractsWithMedia;
 
     protected $table = 'bautisos';
 
@@ -96,6 +99,9 @@ class Bautizo extends Model
         'ministro_id' => 'required|integer',
     ];
 
+    protected $appends = [
+        'imagenes',
+    ];
 
     /**
      * Custom messages for validation
@@ -143,6 +149,21 @@ class Bautizo extends Model
     public function ministroBautiza(): HasOne
     {
         return $this->hasOne(User::class, 'id', 'ministro_id');
+
+    }
+
+    public function getImagenesAttribute()
+    {
+        return $this->getMedia('imagenes')
+            ->map(function ($media) {
+                return [
+                    'id' => $media->id,
+                    'url' => $media->getUrl(),
+                    'name' => $media->file_name,
+                    'size' => $media->size,
+                    'mime_type' => $media->mime_type,
+                ];
+            });
 
     }
 

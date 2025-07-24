@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\DB;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -115,6 +116,16 @@ class BautizoApiController extends AppbaseController implements HasMiddleware
                 $bautizo->participantes()->detach();
             }
 
+            // Verificamos si se enviaron imágenes
+            if ($request->hasFile('imagenes')) {
+                // Aseguramos que las imágenes sean un array
+                foreach ($request->file('imagenes') as $imagen) {
+                    // Guardamos cada imagen en la colección 'imagenes'
+                    $bautizo->addMedia($imagen)
+                        ->toMediaCollection('imagenes');
+                }
+            }
+
             // Si todo salió bien, confirmamos la transacción
             DB::commit();
 
@@ -153,10 +164,10 @@ class BautizoApiController extends AppbaseController implements HasMiddleware
     {
         // Buscamos el bautizo, o lanzamos error 404 si no existe
         $bautizo = Bautizo::findOrFail($id);
-
         // Obtenemos los datos validados del request
         $input = $request->all();
 
+        logger($request->all());
         // Iniciamos una transacción para asegurar consistencia en la actualización
         DB::beginTransaction();
 
@@ -186,6 +197,16 @@ class BautizoApiController extends AppbaseController implements HasMiddleware
                 $this->guardarEnBitacora($bautizo, 'Participantes', 'No se enviaron participantes, se eliminaron los existentes.');
                 // Si no se envían participantes, se eliminan los que tenía antes
                 $bautizo->participantes()->detach();
+            }
+
+            // Verificamos si se enviaron imágenes
+            if ($request->hasFile('imagenes')) {
+                // Aseguramos que las imágenes sean un array
+                foreach ($request->file('imagenes') as $imagen) {
+                    // Guardamos cada imagen en la colección 'imagenes'
+                    $bautizo->addMedia($imagen)
+                        ->toMediaCollection('imagenes');
+                }
             }
 
             // Confirmamos la transacción
@@ -223,4 +244,14 @@ class BautizoApiController extends AppbaseController implements HasMiddleware
 
     }
 
+    public function eliminarImagen(Media $id)
+    {
+        try {
+            $media = Media::findOrFail($id->id);
+            $media->delete();
+            return $this->sendSuccess('Imagen eliminada con éxito.');
+        } catch (\Throwable $e) {
+            return $this->sendError('Error al eliminar la imagen.', $e->getMessage(),);
+        }
+    }
 }

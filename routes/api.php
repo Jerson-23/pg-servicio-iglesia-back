@@ -40,6 +40,10 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::apiResource('bautizos/bitacoras', App\Http\Controllers\Api\Evento\BautizoBitacoraApiController::class);
 
+    Route::delete('bautizos/eliminar/imagen/{id}', [App\Http\Controllers\Api\Congregacion\BautizoApiController::class, 'eliminarImagen']);
+
+    Route::post('bautizos/{id}', [App\Http\Controllers\Api\Congregacion\BautizoApiController::class, 'update']);
+
     Route::apiResource('bautizos', App\Http\Controllers\Api\Congregacion\BautizoApiController::class);
 
     Route::apiResource('eventos', App\Http\Controllers\Api\Evento\EventoApiController::class);
