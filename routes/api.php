@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -10,7 +11,6 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
 Route::middleware('auth:sanctum')->group(function () {
 
     require __DIR__.'/admin/api.php';
-
 
     Route::apiResource('ministerios', App\Http\Controllers\Api\Ministerio\MinisterioApiController::class);
 
@@ -55,6 +55,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('profesiones', App\Http\Controllers\Api\Persona\ProfesionApiController::class)
         ->parameters(['profesiones' => 'profesion']);
 
+    Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
+        ->middleware('auth')
+        ->name('logout');
 });
 
 require __DIR__.'/auth.php';
