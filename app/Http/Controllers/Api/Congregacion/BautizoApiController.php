@@ -136,7 +136,7 @@ class BautizoApiController extends AppbaseController implements HasMiddleware
             DB::rollBack();
 
             // Retornamos un error con el mensaje
-            return $this->sendError('Error al crear el bautizo.', $e->getMessage(), 500);
+            return $this->sendError($e->getMessage());
         }
     }
     /**
