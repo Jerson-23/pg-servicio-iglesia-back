@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('iglesias', function (Blueprint $table) {
             $table->increments('id');
             $table->string('nombre', 120);
+            $table->string('distrito');
+            $table->string('no_iglesia');
             $table->text('direccion');
             $table->unsignedBigInteger('pastor_id')->index('fk_iglesias_users1_idx');
             $table->timestamps();

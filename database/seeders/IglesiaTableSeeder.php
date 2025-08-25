@@ -22,6 +22,8 @@ class IglesiaTableSeeder extends Seeder
         Iglesia::create([
             'nombre' => 'Iglesia Central',
             'direccion' => 'Calle Principal 123',
+            'distrito' => '3',
+            'no_iglesia' => '5',
             'pastor_id' => 1,
         ]);
 
