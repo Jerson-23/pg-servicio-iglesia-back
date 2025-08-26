@@ -87,6 +87,15 @@ class EventoApiController extends AppbaseController implements HasMiddleware
                 $idsMinisterios = collect($input['ministerios'])->pluck('id')->toArray();
                 // Sincronizar los ministerios con el evento
                 $evento->ministerios()->sync($idsMinisterios);
+                // Verificamos si se enviaron imágenes
+            }
+            if ($request->hasFile('imagenes')) {
+                // Aseguramos que las imágenes sean un array
+                foreach ($request->file('imagenes') as $imagen) {
+                    // Guardamos cada imagen en la colección 'imagenes'
+                    $evento->addMedia($imagen)
+                        ->toMediaCollection('imagenesEventos');
+                }
             }
 
             // Confirmar la transacción: todo se guarda permanentemente
@@ -144,6 +153,15 @@ class EventoApiController extends AppbaseController implements HasMiddleware
                 $idsMinisterios = collect($input['ministerios'])->pluck('id')->toArray();
                 // Sincronizar los ministerios con el evento
                 $evento->ministerios()->sync($idsMinisterios);
+            }
+
+            if ($request->hasFile('imagenes')) {
+                // Aseguramos que las imágenes sean un array
+                foreach ($request->file('imagenes') as $imagen) {
+                    // Guardamos cada imagen en la colección 'imagenes'
+                    $evento->addMedia($imagen)
+                        ->toMediaCollection('imagenesEventos');
+                }
             }
 
             // Confirmar la transacción: todo se guarda permanentemente

@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
 /**
  *
@@ -42,9 +44,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Evento withoutTrashed()
  * @mixin \Eloquent
  */
-class Evento extends Model
+class Evento extends Model implements HasMedia
 {
 
+    use InteractsWithMedia;
     use SoftDeletes;
     use HasFactory;
 
@@ -80,7 +83,7 @@ class Evento extends Model
         'deleted_at' => 'timestamp',
     ];
 
-
+    protected $appends = ['imagenes'];
     /**
      * Validation rules
      *
@@ -134,5 +137,20 @@ class Evento extends Model
             'eventos_has_ministerios',
             'eventos_id',
             'ministerios_id');
+    }
+
+    public function getImagenesAttribute()
+    {
+        return $this->getMedia('imagenesEventos')
+            ->map(function ($media) {
+                return [
+                    'id' => $media->id,
+                    'url' => $media->getUrl(),
+                    'name' => $media->file_name,
+                    'size' => $media->size,
+                    'mime_type' => $media->mime_type,
+                ];
+            });
+
     }
 }
