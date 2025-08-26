@@ -98,6 +98,7 @@ class Persona extends Model
         'profesion_id',
         'apellido_casada',
         'iglesia_id',
+        'observaciones',
     ];
 
 

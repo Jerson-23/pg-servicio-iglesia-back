@@ -43,6 +43,7 @@ return new class extends Migration
             $table->unsignedInteger('conyugue_id')->index('fk_personas_persona_conyugue_idx')->nullable();
             $table->unsignedInteger('profesion_id')->index('fk_personas_persona_profesion_idx')->nullable();
             $table->unsignedInteger('iglesia_id')->index('fk_personas_persona_iglesia_idx')->nullable();
+            $table->text('observaciones')->nullable();
 
             $table->timestamps();
             $table->softDeletes();
