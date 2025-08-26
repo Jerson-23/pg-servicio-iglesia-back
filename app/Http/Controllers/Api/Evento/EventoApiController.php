@@ -58,6 +58,9 @@ class EventoApiController extends AppbaseController implements HasMiddleware
             ])
             ->allowedIncludes([
                 'tipo',
+                'iglesia',
+                'participantes',
+                'ministerios'
             ])
             ->defaultSort('-id') // Ordenar por defecto por fecha descendente
             ->paginate($request->get('per_page', 250));
